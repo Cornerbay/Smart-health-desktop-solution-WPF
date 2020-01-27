@@ -26,7 +26,7 @@ namespace Smart_health_desktop_solution_WPF
         {
             InitializeComponent();
 
-            string connectionString = "SERVER=smart-health-solution.mysql.database.azure.com;DATABASE=app2000;UID=designerkaktus@smart-health-solution;PASSWORD=Vieralleveldigsunne1;";
+/*            string connectionString = "SERVER=smart-health-solution.mysql.database.azure.com;DATABASE=app2000;UID=designerkaktus@smart-health-solution;PASSWORD=Vieralleveldigsunne1;";
 
             MySqlConnection connection = new MySqlConnection(connectionString);
 
@@ -34,8 +34,10 @@ namespace Smart_health_desktop_solution_WPF
             connection.Open();
             DataTable dt = new DataTable();
             dt.Load(cmd.ExecuteReader());
-            connection.Close();
+            connection.Close();*/
 
+            Persistence persistence = new Persistence();
+            object dt = persistence.readTable("patient");
             dtGrid.DataContext = dt;
 
         }
