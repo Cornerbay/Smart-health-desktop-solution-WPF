@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <DataGrid HorizontalAlignment="Left" Height="246" VerticalAlignment="Top" Width="794" Margin="0,0,-0.4,0" Name="dtGrid" ItemsSource="{Binding}"/>
     </Grid>
 </Window>
