@@ -13,9 +13,20 @@ namespace Smart_health_desktop_solution_WPF
     class Persistence
     {
 
-        static string connectionString = "SERVER=smart-health-solution.mysql.database.azure.com;DATABASE=app2000;UID=designerkaktus@smart-health-solution;PASSWORD=Vieralleveldigsunne1;";
+        private static string connectionString = "SERVER=smart-health-solution.mysql.database.azure.com;DATABASE=app2000;UID=designerkaktus@smart-health-solution;PASSWORD=Vieralleveldigsunne1;";
 
-        public object readTable(string table)
+        private void executeQuery(string querySentence)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = connection;
+            cmd.CommandText = querySentence;
+            connection.Open();
+            cmd.ExecuteNonQuery();
+            connection.Close();
+        }
+
+        internal object readTable(string table)
         {
         MySqlConnection connection = new MySqlConnection(connectionString);
 
@@ -29,18 +40,53 @@ namespace Smart_health_desktop_solution_WPF
             return dt;
         }
 
-        public void addPatient(Hashtable htPatientRow)
+        internal void addPatient(Hashtable hashTable)
         {
-            MySqlConnection connection = new MySqlConnection(connectionString);
+            //MySqlCommand cmd = new MySqlCommand("insert into "+htPatientRow["Table"]+" values ("+ htPatientRow["BirthNumber"]+",'"+ htPatientRow["FirstName"]+"','"+ htPatientRow["LastName"]+"','"+ htPatientRow["Adress"]+"','"+ htPatientRow["Birthdate"]+"',"+ htPatientRow["AuthorizationLevel"]+" );", connection);
+            string querySentence = "insert into " + hashTable["Table"] + " values (" + hashTable["BirthNumber"] + ",'" + hashTable["FirstName"] + "','" + hashTable["LastName"] + "','" + hashTable["Adress"] + "','" + hashTable["Birthdate"] + "'," + hashTable["AuthorizationLevel"] + " );";
+            executeQuery(querySentence);
+        }
 
-            MySqlCommand cmd = new MySqlCommand("insert into "+htPatientRow["Table"]+" values ("+ htPatientRow["BirthNumber"]+",'"+ htPatientRow["FirstName"]+"','"+ htPatientRow["LastName"]+"','"+ htPatientRow["Adress"]+"','"+ htPatientRow["Birthdate"]+"',"+ htPatientRow["AuthorizationLevel"]+" );", connection);
-          
+        internal void addDoctor(Hashtable hashTable)
+        {
+            string querySentence = "insert into";
+            executeQuery(querySentence);
+        }
 
-            connection.Open();
+        internal void addMedicalHistory(Hashtable hashTable)
+        {
+            string querySentence = "insert into";
+            executeQuery(querySentence);
+        }
 
-            cmd.ExecuteNonQuery();
+        internal void addLocation(Hashtable hashTable)
+        {
+            string querySentence = "insert into";
+            executeQuery(querySentence);
+        }
 
-            connection.Close();
+        internal void addTreatment(Hashtable hashTable)
+        {
+            string querySentence = "insert into";
+            executeQuery(querySentence);
+        }
+
+        internal void addSpecialization(Hashtable hashTable)
+        {
+            string querySentence = "insert into";
+            executeQuery(querySentence);
+        }
+
+        internal void addAppointment(Hashtable hashTable)
+        {
+            string querySentence = "insert into";
+            executeQuery(querySentence);
+        }
+
+        internal void addCommunication(Hashtable hashTable)
+        {
+            string querySentence = "insert into";
+            executeQuery(querySentence);
         }
     }
 }
