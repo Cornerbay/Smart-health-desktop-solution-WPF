@@ -61,7 +61,8 @@ namespace Smart_health_desktop_solution_WPF
 
         internal void addLocation(Hashtable hashTable)
         {
-            string detteErEnTestVariabel = "test";
+            string querySentence = "insert into";
+            executeQuery(querySentence);
         }
 
         internal void addTreatment(Hashtable hashTable)
