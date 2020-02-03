@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -26,6 +27,20 @@ namespace Smart_health_desktop_solution_WPF
 
       
             return dt;
+        }
+
+        public void addPatient(Hashtable htPatientRow)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+
+            MySqlCommand cmd = new MySqlCommand("insert into "+htPatientRow["Table"]+" values ("+ htPatientRow["BirthNumber"]+",'"+ htPatientRow["FirstName"]+"','"+ htPatientRow["LastName"]+"','"+ htPatientRow["Adress"]+"','"+ htPatientRow["Birthdate"]+"',"+ htPatientRow["AuthorizationLevel"]+" );", connection);
+          
+
+            connection.Open();
+
+            cmd.ExecuteNonQuery();
+
+            connection.Close();
         }
     }
 }

@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data;
+using System.Collections;
 
 namespace Smart_health_desktop_solution_WPF
 {
@@ -26,22 +27,40 @@ namespace Smart_health_desktop_solution_WPF
         {
             InitializeComponent();
 
-/*            string connectionString = "SERVER=smart-health-solution.mysql.database.azure.com;DATABASE=app2000;UID=designerkaktus@smart-health-solution;PASSWORD=Vieralleveldigsunne1;";
+            /*            string connectionString = "SERVER=smart-health-solution.mysql.database.azure.com;DATABASE=app2000;UID=designerkaktus@smart-health-solution;PASSWORD=Vieralleveldigsunne1;";
 
-            MySqlConnection connection = new MySqlConnection(connectionString);
+                        MySqlConnection connection = new MySqlConnection(connectionString);
 
-            MySqlCommand cmd = new MySqlCommand("select*from patient", connection);
-            connection.Open();
-            DataTable dt = new DataTable();
-            dt.Load(cmd.ExecuteReader());
-            connection.Close();*/
+                        MySqlCommand cmd = new MySqlCommand("select*from patient", connection);
+                        connection.Open();
+                        DataTable dt = new DataTable();
+                        dt.Load(cmd.ExecuteReader());
+                        connection.Close();*/
+
+
+
 
             Persistence persistence = new Persistence();
+            
             object dt = persistence.readTable("patient");
             dtGrid.DataContext = dt;
 
         }
 
-
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Hashtable htPatientRow = new Hashtable()
+            {
+                {"Table", "patient"},
+                {"BirthNumber", Int64.Parse(Birthdate.Text)},
+                {"FirstName", "fornavn"},
+                {"LastName", "etternavn"},
+                {"Adress", "addresse"},
+                {"Birthdate","2001-01-01"},
+                {"AuthorizationLevel", 1}
+            };
+            Persistence persistence = new Persistence();
+            persistence.addPatient(htPatientRow);
+        }
     }
 }
