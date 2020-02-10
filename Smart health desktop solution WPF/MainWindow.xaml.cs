@@ -42,7 +42,10 @@ namespace Smart_health_desktop_solution_WPF
 
             Persistence persistence = new Persistence();
             
-            object dt = persistence.readTable("patient");
+            DataTable dt = persistence.readTable("patient");
+
+            PrintValues(dt);
+
             dtGrid.DataContext = dt;
 
         }
@@ -61,6 +64,24 @@ namespace Smart_health_desktop_solution_WPF
             };
             Persistence persistence = new Persistence();
             persistence.addPatient(htPatientRow);
+        }
+
+        private void PrintValues(DataTable table)
+        {
+            foreach (DataRow row in table.Rows)
+            {
+                Console.WriteLine(row);
+                foreach (DataColumn column in table.Columns)
+                {
+                    Console.WriteLine(row[column]);
+                }
+            }
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            WindowAddNew newWindow = new WindowAddNew();
+            newWindow.Show();
         }
     }
 }

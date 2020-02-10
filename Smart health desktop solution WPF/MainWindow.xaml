@@ -7,7 +7,21 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <DataGrid HorizontalAlignment="Left" Height="246" VerticalAlignment="Top" Width="794" Margin="0,0,-0.4,0" Name="dtGrid" ItemsSource="{Binding}"/>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Exit" />
+            </MenuItem>
+            <MenuItem Header="_Add">
+                <MenuItem Header="_Row" Click="MenuItem_Click" />
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="_Row" />
+            </MenuItem>
+            <MenuItem Header="_Delete">
+                <MenuItem Header="_Row" />
+            </MenuItem>
+        </Menu>
+        <DataGrid HorizontalAlignment="Left" Height="246" VerticalAlignment="Top" Width="794" Margin="0,29,-0.4,0" Name="dtGrid" ItemsSource="{Binding}"/>
         <TextBox Name="Birthdate" HorizontalAlignment="Left" Height="23" Margin="144,280,0,0" TextWrapping="Wrap" Text="Birthnumber" VerticalAlignment="Top" Width="92"/>
         <Button Content="Submit" HorizontalAlignment="Left" Margin="144,344,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
     </Grid>

@@ -1,0 +1,16 @@
+﻿<Window x:Class="Smart_health_desktop_solution_WPF.WindowAddNew"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Smart_health_desktop_solution_WPF"
+        mc:Ignorable="d"
+        Title="WindowAddNew" Height="450" Width="800"
+        Loaded="Window_Loaded">
+    <Grid>
+        <ComboBox Name="comboBoxGetTable" HorizontalAlignment="Left" Text="Choose table" IsEditable="True" IsReadOnly="True" Margin="74,86,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="comboBoxGetTable_SelectionChanged"/>
+        <Label Content="Choose what data you want to add" HorizontalAlignment="Left" Margin="74,33,0,0" VerticalAlignment="Top" Height="48" Width="447" FontSize="24"/>
+        <StackPanel HorizontalAlignment="Left" Name="textboxStackpanel" Height="106" Margin="74,129,0,0" VerticalAlignment="Top" Orientation="Horizontal" Width="658"/>
+
+    </Grid>
+</Window>
