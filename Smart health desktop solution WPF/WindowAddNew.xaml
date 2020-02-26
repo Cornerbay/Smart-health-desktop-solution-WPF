@@ -8,9 +8,16 @@
         Title="WindowAddNew" Height="450" Width="800"
         Loaded="Window_Loaded">
     <Grid>
-        <ComboBox Name="comboBoxGetTable" HorizontalAlignment="Left" Text="Choose table" IsEditable="True" IsReadOnly="True" Margin="74,86,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="comboBoxGetTable_SelectionChanged"/>
+        <ComboBox Name="comboBoxGetTable" HorizontalAlignment="Left" Text="Choose table" IsEditable="True" IsReadOnly="True" Margin="74,86,0,0" VerticalAlignment="Top" Width="142" SelectionChanged="comboBoxGetTable_SelectionChanged" Height="24"/>
         <Label Content="Choose what data you want to add" HorizontalAlignment="Left" Margin="74,33,0,0" VerticalAlignment="Top" Height="48" Width="447" FontSize="24"/>
         <StackPanel HorizontalAlignment="Left" Name="textboxStackpanel" Height="106" Margin="74,129,0,0" VerticalAlignment="Top" Orientation="Horizontal" Width="658"/>
-
+        <Button Content="ADD" Margin="74,258,0,0" Width="84" FontSize="22" BorderBrush="{x:Null}" Foreground="White" BorderThickness="0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="35" Click="Add_Row_Button_Click">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFA2D9CE" Offset="0"/>
+                    <GradientStop Color="#FF16A085" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
     </Grid>
 </Window>

@@ -27,19 +27,7 @@ namespace Smart_health_desktop_solution_WPF
         {
             InitializeComponent();
 
-            /*            string connectionString = "SERVER=smart-health-solution.mysql.database.azure.com;DATABASE=app2000;UID=designerkaktus@smart-health-solution;PASSWORD=Vieralleveldigsunne1;";
-
-                        MySqlConnection connection = new MySqlConnection(connectionString);
-
-                        MySqlCommand cmd = new MySqlCommand("select*from patient", connection);
-                        connection.Open();
-                        DataTable dt = new DataTable();
-                        dt.Load(cmd.ExecuteReader());
-                        connection.Close();*/
-
-
-
-
+/*
             Persistence persistence = new Persistence();
             
             DataTable dt = persistence.readTable("patient");
@@ -47,10 +35,10 @@ namespace Smart_health_desktop_solution_WPF
             PrintValues(dt);
 
             dtGrid.DataContext = dt;
-
+*/
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+/*        private void Button_Click(object sender, RoutedEventArgs e)
         {
             Hashtable htPatientRow = new Hashtable()
             {
@@ -64,21 +52,16 @@ namespace Smart_health_desktop_solution_WPF
             };
             Persistence persistence = new Persistence();
             persistence.addPatient(htPatientRow);
-        }
+        }*/
 
-        private void PrintValues(DataTable table)
+
+
+        private void MenuExit_Click(object sender, RoutedEventArgs e)
         {
-            foreach (DataRow row in table.Rows)
-            {
-                Console.WriteLine(row);
-                foreach (DataColumn column in table.Columns)
-                {
-                    Console.WriteLine(row[column]);
-                }
-            }
+            System.Windows.Application.Current.Shutdown();
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void Add_Row_Button_Click(object sender, RoutedEventArgs e)
         {
             WindowAddNew newWindow = new WindowAddNew();
             newWindow.Show();

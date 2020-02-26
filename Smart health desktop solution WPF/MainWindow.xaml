@@ -6,23 +6,48 @@
         xmlns:local="clr-namespace:Smart_health_desktop_solution_WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+
+
     <Grid>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_Exit" />
-            </MenuItem>
-            <MenuItem Header="_Add">
-                <MenuItem Header="_Row" Click="MenuItem_Click" />
-            </MenuItem>
-            <MenuItem Header="_Edit">
-                <MenuItem Header="_Row" />
-            </MenuItem>
-            <MenuItem Header="_Delete">
-                <MenuItem Header="_Row" />
+                <MenuItem Header="_Exit" Click="MenuExit_Click" />
             </MenuItem>
         </Menu>
-        <DataGrid HorizontalAlignment="Left" Height="246" VerticalAlignment="Top" Width="794" Margin="0,29,-0.4,0" Name="dtGrid" ItemsSource="{Binding}"/>
-        <TextBox Name="Birthdate" HorizontalAlignment="Left" Height="23" Margin="144,280,0,0" TextWrapping="Wrap" Text="Birthnumber" VerticalAlignment="Top" Width="92"/>
-        <Button Content="Submit" HorizontalAlignment="Left" Margin="144,344,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <Label Content="Choose operation" Margin="107,73,117.6,265" FontSize="36" HorizontalContentAlignment="Center"/>
+        <Button Content="ADD" Margin="107,160,0,0" Width="136" FontSize="22" BorderBrush="{x:Null}" Foreground="White" BorderThickness="0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="57" Click="Add_Row_Button_Click">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFA2D9CE" Offset="0"/>
+                    <GradientStop Color="#FF16A085" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Button Content="EDIT" Margin="251,160,0,0" Width="136" FontSize="22" BorderBrush="{x:Null}" Foreground="White" BorderThickness="0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="57">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFA2D9CE" Offset="0"/>
+                    <GradientStop Color="#FF16A085" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Button Content="DELETE" Margin="395,160,0,0" Width="137" FontSize="22" BorderBrush="{x:Null}" Foreground="White" BorderThickness="0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="57">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFA2D9CE" Offset="0"/>
+                    <GradientStop Color="#FF16A085" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Button Content="VIEW" Margin="540,160,0,0" Width="136" FontSize="22" BorderBrush="{x:Null}" Foreground="White" BorderThickness="0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="57">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFA2D9CE" Offset="0"/>
+                    <GradientStop Color="#FF16A085" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
     </Grid>
 </Window>
+    
+    

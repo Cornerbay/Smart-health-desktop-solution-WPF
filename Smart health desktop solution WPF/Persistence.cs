@@ -15,7 +15,7 @@ namespace Smart_health_desktop_solution_WPF
 
         private static readonly string connectionString = "SERVER=smart-health-solution.mysql.database.azure.com;DATABASE=app2000;UID=designerkaktus@smart-health-solution;PASSWORD=Vieralleveldigsunne1;";
 
-        private void executeAddQuery(string querySentence)
+        private void ExecuteAddQuery(string querySentence)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
             MySqlCommand cmd = new MySqlCommand();
@@ -26,7 +26,7 @@ namespace Smart_health_desktop_solution_WPF
             connection.Close();
         }
 
-        internal DataTable executeReadQuery(string querySentence)
+        internal DataTable ExecuteReadQuery(string querySentence)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
             MySqlCommand cmd = new MySqlCommand();
@@ -38,7 +38,7 @@ namespace Smart_health_desktop_solution_WPF
             connection.Close();
             return dt;
         }
-        internal DataTable getSchema()
+        internal DataTable GetSchema()
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
             MySqlCommand cmd = new MySqlCommand();
@@ -51,7 +51,7 @@ namespace Smart_health_desktop_solution_WPF
         }
 
 
-        internal DataTable readTable(string table)
+        internal DataTable ReadTable(string table)
         {
         MySqlConnection connection = new MySqlConnection(connectionString);
 
@@ -65,59 +65,84 @@ namespace Smart_health_desktop_solution_WPF
             return dt;
         }
 
-        internal DataTable getColumnNames(string table)
+        internal DataTable GetColumnNames(string table)
         {
             string querySentence = "SHOW COLUMNS FROM " + table + ";";
-            return executeReadQuery(querySentence);
+            return ExecuteReadQuery(querySentence);
         }
 
-        internal void addPatient(Hashtable hashTable)
+        internal void AddPatient(Hashtable hashTable)
         {
             //MySqlCommand cmd = new MySqlCommand("insert into "+htPatientRow["Table"]+" values ("+ htPatientRow["BirthNumber"]+",'"+ htPatientRow["FirstName"]+"','"+ htPatientRow["LastName"]+"','"+ htPatientRow["Adress"]+"','"+ htPatientRow["Birthdate"]+"',"+ htPatientRow["AuthorizationLevel"]+" );", connection);
             string querySentence = "insert into " + hashTable["Table"] + " values (" + hashTable["BirthNumber"] + ",'" + hashTable["FirstName"] + "','" + hashTable["LastName"] + "','" + hashTable["Adress"] + "','" + hashTable["Birthdate"] + "'," + hashTable["AuthorizationLevel"] + " );";
-            executeAddQuery(querySentence);
+            ExecuteAddQuery(querySentence);
         }
 
-        internal void addDoctor(Hashtable hashTable)
+        internal void AddQuerySentence(Hashtable hashTable)
         {
-            string querySentence = "insert into";
-            executeAddQuery(querySentence);
+            string querySentence = "insert into ";
+            foreach (DictionaryEntry entry in hashTable)
+            {
+                if(entry.Key == "Table")
+                {
+                    querySentence += entry.Value + " values (";
+                }
+                else if((entry.Value is short || entry.Value is int || entry.Value is long))
+                {
+                    querySentence += entry.Value + ",";
+                }
+                else
+                {
+
+                querySentence += "'" + entry.Value + "',";
+                }    
+            };
+            querySentence = querySentence.Remove(querySentence.Length - 1);
+            querySentence += ");";
+
+            ExecuteAddQuery(querySentence);
         }
 
-        internal void addMedicalHistory(Hashtable hashTable)
+        internal void AddDoctor(Hashtable hashTable)
         {
             string querySentence = "insert into";
-            executeAddQuery(querySentence);
+            ExecuteAddQuery(querySentence);
         }
 
-        internal void addLocation(Hashtable hashTable)
+        internal void AddMedicalHistory(Hashtable hashTable)
         {
             string querySentence = "insert into";
-            executeAddQuery(querySentence);
+            ExecuteAddQuery(querySentence);
         }
 
-        internal void addTreatment(Hashtable hashTable)
+        internal void AddLocation(Hashtable hashTable)
         {
             string querySentence = "insert into";
-            executeAddQuery(querySentence);
+            ExecuteAddQuery(querySentence);
         }
 
-        internal void addSpecialization(Hashtable hashTable)
+        internal void AddTreatment(Hashtable hashTable)
         {
             string querySentence = "insert into";
-            executeAddQuery(querySentence);
+            ExecuteAddQuery(querySentence);
+        }
+
+        internal void AddSpecialization(Hashtable hashTable)
+        {
+            string querySentence = "insert into";
+            ExecuteAddQuery(querySentence);
         }
 
         internal void addAppointment(Hashtable hashTable)
         {
             string querySentence = "insert into";
-            executeAddQuery(querySentence);
+            ExecuteAddQuery(querySentence);
         }
 
         internal void addCommunication(Hashtable hashTable)
         {
             string querySentence = "insert into";
-            executeAddQuery(querySentence);
+            ExecuteAddQuery(querySentence);
         }
     }
 }

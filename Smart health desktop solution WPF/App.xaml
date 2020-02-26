@@ -4,6 +4,5 @@
              xmlns:local="clr-namespace:Smart_health_desktop_solution_WPF"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
     </Application.Resources>
 </Application>
