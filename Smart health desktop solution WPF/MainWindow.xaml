@@ -4,49 +4,41 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Smart_health_desktop_solution_WPF"
+        xmlns:viewmodels="clr-namespace:Smart_health_desktop_solution_WPF.ViewModels"
+        xmlns:views="clr-namespace:Smart_health_desktop_solution_WPF.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-
-
+        Title="MainWindow" Height="720" Width="1080"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <DataTemplate x:Name="doctorTableView" DataType="{x:Type viewmodels:Doctor}">
+            <views:Doctor DataContext="{Binding}"/>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="_Exit" Click="MenuExit_Click" />
-            </MenuItem>
-        </Menu>
-        <Label Content="Choose operation" Margin="107,73,117.6,265" FontSize="36" HorizontalContentAlignment="Center"/>
-        <Button Content="ADD" Margin="107,160,0,0" Width="136" FontSize="22" BorderBrush="{x:Null}" Foreground="White" BorderThickness="0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="57" Click="Add_Row_Button_Click">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFA2D9CE" Offset="0"/>
-                    <GradientStop Color="#FF16A085" Offset="1"/>
-                </LinearGradientBrush>
-            </Button.Background>
-        </Button>
-        <Button Content="EDIT" Margin="251,160,0,0" Width="136" FontSize="22" BorderBrush="{x:Null}" Foreground="White" BorderThickness="0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="57">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFA2D9CE" Offset="0"/>
-                    <GradientStop Color="#FF16A085" Offset="1"/>
-                </LinearGradientBrush>
-            </Button.Background>
-        </Button>
-        <Button Content="DELETE" Margin="395,160,0,0" Width="137" FontSize="22" BorderBrush="{x:Null}" Foreground="White" BorderThickness="0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="57">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFA2D9CE" Offset="0"/>
-                    <GradientStop Color="#FF16A085" Offset="1"/>
-                </LinearGradientBrush>
-            </Button.Background>
-        </Button>
-        <Button Content="VIEW" Margin="540,160,0,0" Width="136" FontSize="22" BorderBrush="{x:Null}" Foreground="White" BorderThickness="0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="57">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFA2D9CE" Offset="0"/>
-                    <GradientStop Color="#FF16A085" Offset="1"/>
-                </LinearGradientBrush>
-            </Button.Background>
-        </Button>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Background="Gray" Grid.Row="0" Grid.Column="0" Grid.RowSpan="5">
+            <StackPanel>
+                <Button Content="Doctor" Click="DoctorBtnClicked"/>
+            </StackPanel>
+        </DockPanel>
+
+
+        <ContentControl Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="5" Content="{Binding}">
+        </ContentControl>
     </Grid>
 </Window>
     

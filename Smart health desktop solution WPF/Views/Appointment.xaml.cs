@@ -1,5 +1,4 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,27 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Data;
-using System.Collections;
-using Smart_health_desktop_solution_WPF.ViewModels;
 
-namespace Smart_health_desktop_solution_WPF
+namespace Smart_health_desktop_solution_WPF.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Appointment.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Appointment : UserControl
     {
-        public MainWindow()
+        public Appointment()
         {
             InitializeComponent();
-        }
-
-
-
-        private void DoctorBtnClicked(object sender, RoutedEventArgs e)
-        {
-            DataContext = new Doctor();
         }
     }
 }
