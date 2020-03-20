@@ -31,9 +31,24 @@ namespace Smart_health_desktop_solution_WPF
 
 
 
-        private void DoctorBtnClicked(object sender, RoutedEventArgs e)
+        private void doctorBtnClicked(object sender, RoutedEventArgs e)
         {
             DataContext = new Doctor();
+        }
+
+        private void specializationBtnClicked(object sender, RoutedEventArgs e)
+        {
+            DataContext = new Specialization();
+        }
+
+        private void locationBtnClicked(object sender, RoutedEventArgs e)
+        {
+            DataContext = new Location();
+        }
+
+        private void patientBtnClicked(object sender, RoutedEventArgs e)
+        {
+            DataContext = new Patient();
         }
     }
 }

@@ -13,6 +13,15 @@
         <DataTemplate x:Name="doctorTableView" DataType="{x:Type viewmodels:Doctor}">
             <views:Doctor DataContext="{Binding}"/>
         </DataTemplate>
+        <DataTemplate x:Name="specializationTableView" DataType="{x:Type viewmodels:Specialization}">
+            <views:Specialization DataContext="{Binding}"/>
+        </DataTemplate>
+        <DataTemplate x:Name="locationTableView" DataType="{x:Type viewmodels:Location}">
+            <views:Location DataContext="{Binding}"/>
+        </DataTemplate>
+        <DataTemplate x:Name="patientTableView" DataType="{x:Type viewmodels:Patient}">
+            <views:Patient DataContext="{Binding}"/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -32,7 +41,10 @@
 
         <DockPanel Background="Gray" Grid.Row="0" Grid.Column="0" Grid.RowSpan="5">
             <StackPanel>
-                <Button Content="Doctor" Click="DoctorBtnClicked"/>
+                <Button Content="Doctor" Click="doctorBtnClicked"/>
+                <Button Content="Specialization" Click="specializationBtnClicked"/>
+                <Button Content="Location" Click="locationBtnClicked"/>
+                <Button Content="Patient" Click="patientBtnClicked"/>
             </StackPanel>
         </DockPanel>
 

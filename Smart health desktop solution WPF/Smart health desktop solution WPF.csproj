@@ -81,6 +81,9 @@
     <Compile Include="ViewModels\Appointment.cs" />
     <Compile Include="ViewModels\Communication.cs" />
     <Compile Include="ViewModels\Doctor.cs" />
+    <Compile Include="ViewModels\Location.cs" />
+    <Compile Include="ViewModels\Patient.cs" />
+    <Compile Include="ViewModels\Specialization.cs" />
     <Compile Include="Views\Appointment.xaml.cs">
       <DependentUpon>Appointment.xaml</DependentUpon>
     </Compile>
@@ -90,11 +93,14 @@
     <Compile Include="Views\Doctor.xaml.cs">
       <DependentUpon>Doctor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Employee.xaml.cs">
-      <DependentUpon>Employee.xaml</DependentUpon>
+    <Compile Include="Views\Location.xaml.cs">
+      <DependentUpon>Location.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WindowAddNew.xaml.cs">
-      <DependentUpon>WindowAddNew.xaml</DependentUpon>
+    <Compile Include="Views\Patient.xaml.cs">
+      <DependentUpon>Patient.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Specialization.xaml.cs">
+      <DependentUpon>Specialization.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -121,11 +127,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Employee.xaml">
+    <Page Include="Views\Location.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WindowAddNew.xaml">
+    <Page Include="Views\Patient.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Specialization.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

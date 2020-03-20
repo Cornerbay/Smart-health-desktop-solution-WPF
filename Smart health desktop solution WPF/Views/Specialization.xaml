@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Smart_health_desktop_solution_WPF.Views.Doctor"
+﻿<UserControl x:Class="Smart_health_desktop_solution_WPF.Views.Specialization"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -31,20 +31,17 @@
         <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="4">
             <GroupBox.Header>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock FontWeight="Bold">Doctor table</TextBlock>
+                    <TextBlock FontWeight="Bold">Specialization table</TextBlock>
                 </StackPanel>
             </GroupBox.Header>
             <StackPanel x:Name="stackPanelTxtBox">
-                <Label x:Name="doctorIDLbl" Content="DoctorID"/>
-                <TextBox x:Name="doctorIDTxt" Text="Auto Assigned" IsReadOnly="True" MinWidth="100"/>
                 <Label x:Name="specializationLbl" Content="Specialization"/>
-                <ComboBox x:Name="specializationList" Text="Choose Specialization" IsEditable="True" IsReadOnly="True" MinWidth="100"/>
-                <Label x:Name="firstNameLbl" Content="First Name"/>
-                <TextBox x:Name="firstNameTxt" MinWidth="100"/>
-                <Label x:Name="lastNameLbl" Content="Last Name"/>
-                <TextBox x:Name="lastNameTxt" MinWidth="100"/>
-                <Label x:Name="locationLbl" Content="Location"/>
-                <ComboBox x:Name="locationList" Text="Choose Location" IsEditable="True" IsReadOnly="True"  MinWidth="100"/>
+                <TextBox x:Name="specializationTxt"  MinWidth="100"/>
+                <Label x:Name="specializationDescLbl" Content="Specialization Description"/>
+                <TextBox x:Name="specializationDescTxt" MinWidth="100"   
+                        TextWrapping="Wrap"
+                        AcceptsReturn="True"
+                        VerticalScrollBarVisibility="Visible"/>
                 <Grid MinHeight="40" MinWidth="140">
                     <Button x:Name="addBtn" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,21" Click="addBtnClick"/>
                     <Button x:Name="updateBtn" Content="Update" HorizontalAlignment="Center" VerticalAlignment="Top" Click="updateBtnClick"/>

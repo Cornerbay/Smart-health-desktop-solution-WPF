@@ -18,24 +18,21 @@ using System.Windows.Shapes;
 namespace Smart_health_desktop_solution_WPF.Views
 {
     /// <summary>
-    /// Interaction logic for Doctor.xaml
+    /// Interaction logic for Specialization.xaml
     /// </summary>
-    public partial class Doctor : UserControl
+    public partial class Specialization : UserControl
     {
+
         private static readonly string connectionString = "Server=tcp:healthcare-app2000.database.windows.net,1433;Initial Catalog=healthcare-app;Persist Security Info=False;User ID=designerkaktus;Password=HestErBest!!!1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        private SqlConnection con=null;
-        private String table = "Doctor";
-        public Doctor()
+        private SqlConnection con = null;
+        private String table = "Specialization";
+        public Specialization()
         {
             setConnection();
             InitializeComponent();
             Persistence persistence = new Persistence();
 
-            persistence.setComboBox(specializationList, persistence.ReadTable("Specialization"), 0);
-            persistence.setComboBox(locationList, persistence.ReadTable("Location"), 0);
-
         }
-
 
 
         private void setConnection()
@@ -44,7 +41,8 @@ namespace Smart_health_desktop_solution_WPF.Views
             try
             {
                 con.Open();
-            }catch(Exception exp) 
+            }
+            catch (Exception exp)
             {
                 MessageBox.Show("The connection seems to have failed due to:\n" + exp.ToString());
             }
@@ -76,30 +74,25 @@ namespace Smart_health_desktop_solution_WPF.Views
             SqlCommand cmd = con.CreateCommand();
             cmd.CommandText = sqlStatement;
             cmd.CommandType = CommandType.Text;
-            
+
             switch (operation)
             {
                 case "add":
                     msg = "Row Inserted Successfully!";
-                    cmd.Parameters.Add("@Specialization", SqlDbType.VarChar, 64).Value = specializationList.SelectedItem;
-                    cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 35).Value = firstNameTxt.Text;
-                    cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 35).Value = lastNameTxt.Text;
-                    cmd.Parameters.Add("@Location", SqlDbType.VarChar, 64).Value = locationList.SelectedItem;
+                    cmd.Parameters.Add("@Specialization", SqlDbType.VarChar, 64).Value = specializationTxt.Text;
+                    cmd.Parameters.Add("@SpecializationDescription", SqlDbType.VarChar, 256).Value = specializationDescTxt.Text;
 
                     break;
                 case "update":
                     msg = "Row Updated Successfully!";
-                    cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse(doctorIDTxt.Text);
-                    cmd.Parameters.Add("@Specialization", SqlDbType.VarChar, 64).Value = specializationList.SelectedItem;
-                    cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 35).Value = firstNameTxt.Text;
-                    cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 35).Value = lastNameTxt.Text;
-                    cmd.Parameters.Add("@Location", SqlDbType.VarChar, 64).Value = locationList.SelectedItem;
+                    cmd.Parameters.Add("@Specialization", SqlDbType.VarChar, 64).Value = specializationTxt.Text;
+                    cmd.Parameters.Add("@SpecializationDescription", SqlDbType.VarChar, 256).Value = specializationDescTxt.Text;
 
                     break;
                 case "delete":
                     msg = "Row Deleted Successfully!";
 
-                    cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse(doctorIDTxt.Text);
+                    cmd.Parameters.Add("@Specialization", SqlDbType.VarChar, 64).Value = specializationTxt.Text;
 
                     break;
             }
@@ -112,22 +105,24 @@ namespace Smart_health_desktop_solution_WPF.Views
                     this.updateDataGrid();
                 }
             }
-            catch (Exception expe) { }
+            catch (Exception expe) 
+            { 
+                MessageBox.Show(expe.ToString()); 
+            }
         }
 
         private void addBtnClick(object sender, RoutedEventArgs e)
         {
             //sjekk hvordan parameters add som står over fungerer.
-            String sql =    "INSERT INTO Doctor(Specialization, FirstName, LastName, Location) " +
-                            "VALUES(@Specialization, @FirstName, @LastName, @Location);";
+            String sql = "INSERT INTO Specialization(Specialization, SpecializationDescription) " +
+                            "VALUES(@Specialization, @SpecializationDescription);";
             this.AUD(sql, "add");
         }
 
         private void updateBtnClick(object sender, RoutedEventArgs e)
         {
-            String sql =    "UPDATE Doctor SET Specialization = @Specialization," +
-                            "FirstName=@Firstname, LastName=@LastName, Location = @Location " +
-                            "WHERE DoctorID = @DoctorID";
+            String sql = "UPDATE Specialization SET SpecializationDescription = @SpecializationDescription" +
+                            "WHERE Specialization = @Specialization";
             this.AUD(sql, "update");
         }
 
@@ -137,11 +132,8 @@ namespace Smart_health_desktop_solution_WPF.Views
             DataRowView dr = dg.SelectedItem as DataRowView;
             if (dr != null)
             {
-                doctorIDTxt.Text = dr["DoctorID"].ToString();
-                specializationList.SelectedItem = dr["Specialization"].ToString();
-                firstNameTxt.Text = dr["FirstName"].ToString();
-                lastNameTxt.Text = dr["LastName"].ToString();
-                locationList.SelectedItem = dr["Location"].ToString();
+                specializationTxt.Text = dr["Specialization"].ToString();
+                specializationDescTxt.Text = dr["SpecializationDescription"].ToString();
 
                 addBtn.IsEnabled = false;
                 updateBtn.IsEnabled = true;
@@ -152,8 +144,8 @@ namespace Smart_health_desktop_solution_WPF.Views
 
         private void deleteBtnClick(object sender, RoutedEventArgs e)
         {
-            String sql =    "DELETE FROM Doctor " +
-                            "WHERE DoctorID = @DoctorID";
+            String sql = "DELETE FROM Specialization " +
+                            "WHERE Specialization = @Specialization";
             this.AUD(sql, "delete");
             this.resetAll();
         }
@@ -165,11 +157,8 @@ namespace Smart_health_desktop_solution_WPF.Views
 
         private void resetAll()
         {
-            doctorIDTxt.Text = "Auto assigned";
-            specializationList.Text = "Choose Specialization";
-            firstNameTxt.Text = "";
-            lastNameTxt.Text = "";
-            locationList.Text = "Choose Location";
+            specializationTxt.Text = "";
+            specializationDescTxt.Text = "";
 
             addBtn.IsEnabled = true;
             updateBtn.IsEnabled = false;
@@ -177,3 +166,4 @@ namespace Smart_health_desktop_solution_WPF.Views
         }
     }
 }
+

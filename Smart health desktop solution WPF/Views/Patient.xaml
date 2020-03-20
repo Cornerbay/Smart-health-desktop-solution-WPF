@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Smart_health_desktop_solution_WPF.Views.Doctor"
+﻿<UserControl x:Class="Smart_health_desktop_solution_WPF.Views.Patient"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -31,20 +31,30 @@
         <GroupBox HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="4">
             <GroupBox.Header>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock FontWeight="Bold">Doctor table</TextBlock>
+                    <TextBlock FontWeight="Bold">Patient table</TextBlock>
                 </StackPanel>
             </GroupBox.Header>
             <StackPanel x:Name="stackPanelTxtBox">
-                <Label x:Name="doctorIDLbl" Content="DoctorID"/>
-                <TextBox x:Name="doctorIDTxt" Text="Auto Assigned" IsReadOnly="True" MinWidth="100"/>
-                <Label x:Name="specializationLbl" Content="Specialization"/>
-                <ComboBox x:Name="specializationList" Text="Choose Specialization" IsEditable="True" IsReadOnly="True" MinWidth="100"/>
-                <Label x:Name="firstNameLbl" Content="First Name"/>
-                <TextBox x:Name="firstNameTxt" MinWidth="100"/>
+                <Label x:Name="birthNumberLbl" Content="Birth Number"/>
+                <TextBox x:Name="birthNumberTxt" PreviewTextInput="birthNumberTxt_PreviewTextInput" DataObject.Pasting="birthNumberTxt_Pasting" MinWidth="100"/>
+                <Label x:Name="FirstName" Content="First Name"/>
+                <TextBox x:Name="firstNameTxt"  MinWidth="100"/>
                 <Label x:Name="lastNameLbl" Content="Last Name"/>
                 <TextBox x:Name="lastNameTxt" MinWidth="100"/>
-                <Label x:Name="locationLbl" Content="Location"/>
-                <ComboBox x:Name="locationList" Text="Choose Location" IsEditable="True" IsReadOnly="True"  MinWidth="100"/>
+                <Label x:Name="addressLbl" Content="Address"/>
+                <TextBox x:Name="addressTxt" MinWidth="100"/>
+                <Label x:Name="birthdateLbl" Content="Birthdate"/>
+                <DatePicker x:Name="birthdateDatePicker" MinWidth="100"/>
+                <Label x:Name="emailLbl" Content="Email"/>
+                <TextBox x:Name="emailTxt" MinWidth="100"/>
+                <Label x:Name="passwordLbl" Content="Password"/>
+                <TextBox x:Name="passwordTxt" MinWidth="100"/>
+                <Label x:Name="phoneLbl" Content="Phone Number"/>
+                <TextBox x:Name="phoneTxt" MinWidth="100"/>
+                <Label x:Name="postalCodeLbl" Content="Postal Code"/>
+                <TextBox x:Name="postalCodeTxt" MinWidth="100"/>
+                <Label x:Name="townLbl" Content="Town"/>
+                <TextBox x:Name="townTxt" MinWidth="100"/>
                 <Grid MinHeight="40" MinWidth="140">
                     <Button x:Name="addBtn" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,21" Click="addBtnClick"/>
                     <Button x:Name="updateBtn" Content="Update" HorizontalAlignment="Center" VerticalAlignment="Top" Click="updateBtnClick"/>
