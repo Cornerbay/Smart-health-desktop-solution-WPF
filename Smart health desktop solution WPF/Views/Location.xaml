@@ -38,15 +38,13 @@
                 <Label x:Name="locationLbl" Content="Location"/>
                 <TextBox x:Name="locationTxt"  MinWidth="100"/>
                 <StackPanel>
+                    <Label Content="Show Location?"/>
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="Yes"/>
-                        <Label Content="No"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <RadioButton x:Name="showLocationYes" Content="1" Checked="showLocationYes_Checked"/>
-                        <RadioButton x:Name="showLocationNo" Content="0" Checked="showLocationNo_Checked"/>
+                        <RadioButton x:Name="showLocationYes" Content="Yes" Checked="showLocationYes_Checked"/>
+                        <RadioButton x:Name="showLocationNo"  Content="No" Checked="showLocationNo_Checked" Margin="10,0,0,0"/>
                     </StackPanel>
                 </StackPanel>
+                <Rectangle Height="10"/>
                 <Grid MinHeight="40" MinWidth="140">
                     <Button x:Name="addBtn" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,21" Click="addBtnClick"/>
                     <Button x:Name="updateBtn" Content="Update" HorizontalAlignment="Center" VerticalAlignment="Top" Click="updateBtnClick"/>

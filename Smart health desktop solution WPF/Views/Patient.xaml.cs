@@ -200,7 +200,7 @@ namespace Smart_health_desktop_solution_WPF.Views
             deleteBtn.IsEnabled = false;
         }
 
-    private void birthNumberTxt_PreviewTextInput(object sender, TextCompositionEventArgs e)
+    private void onlyNumbers_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !IsTextAllowed(e.Text);
         }
@@ -210,7 +210,7 @@ namespace Smart_health_desktop_solution_WPF.Views
             return !_regex.IsMatch(text);
         }
 
-        private void birthNumberTxt_Pasting(object sender, DataObjectPastingEventArgs e)
+        private void onlyNumber_Pasting(object sender, DataObjectPastingEventArgs e)
         {
             if (e.DataObject.GetDataPresent(typeof(String)))
             {

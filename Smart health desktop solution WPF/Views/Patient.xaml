@@ -36,7 +36,7 @@
             </GroupBox.Header>
             <StackPanel x:Name="stackPanelTxtBox">
                 <Label x:Name="birthNumberLbl" Content="Birth Number"/>
-                <TextBox x:Name="birthNumberTxt" PreviewTextInput="birthNumberTxt_PreviewTextInput" DataObject.Pasting="birthNumberTxt_Pasting" MinWidth="100"/>
+                <TextBox x:Name="birthNumberTxt" MaxLength="11" PreviewTextInput="onlyNumbers_PreviewTextInput" DataObject.Pasting="onlyNumber_Pasting" MinWidth="100"/>
                 <Label x:Name="FirstName" Content="First Name"/>
                 <TextBox x:Name="firstNameTxt"  MinWidth="100"/>
                 <Label x:Name="lastNameLbl" Content="Last Name"/>
@@ -52,7 +52,7 @@
                 <Label x:Name="phoneLbl" Content="Phone Number"/>
                 <TextBox x:Name="phoneTxt" MinWidth="100"/>
                 <Label x:Name="postalCodeLbl" Content="Postal Code"/>
-                <TextBox x:Name="postalCodeTxt" MinWidth="100"/>
+                <TextBox x:Name="postalCodeTxt" MaxLength="4" PreviewTextInput="onlyNumbers_PreviewTextInput" DataObject.Pasting="onlyNumber_Pasting" MinWidth="100"/>
                 <Label x:Name="townLbl" Content="Town"/>
                 <TextBox x:Name="townTxt" MinWidth="100"/>
                 <Grid MinHeight="40" MinWidth="140">
