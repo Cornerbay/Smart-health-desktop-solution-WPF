@@ -50,5 +50,10 @@ namespace Smart_health_desktop_solution_WPF
         {
             DataContext = new Patient();
         }
+
+        private void appointmentBtnClicked(object sender, RoutedEventArgs e)
+        {
+            DataContext = new Appointment();
+        }
     }
 }

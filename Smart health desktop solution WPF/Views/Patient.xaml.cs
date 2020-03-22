@@ -78,7 +78,7 @@ namespace Smart_health_desktop_solution_WPF.Views
             {
                 case "add":
                     msg = "Row Inserted Successfully!";
-                    cmd.Parameters.Add("@BirthNumber", SqlDbType.VarChar, 11).Value = birthNumberTxt.Text;
+                    cmd.Parameters.Add("@BirthNumber", SqlDbType.Char, 11).Value = birthNumberTxt.Text;
                     cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 35).Value = firstNameTxt.Text;
                     cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 35).Value = lastNameTxt.Text;
                     cmd.Parameters.Add("@Address", SqlDbType.VarChar, 128).Value = addressTxt.Text;
@@ -92,7 +92,7 @@ namespace Smart_health_desktop_solution_WPF.Views
                     break;
                 case "update":
                     msg = "Row Updated Successfully!";
-                    cmd.Parameters.Add("@BirthNumber", SqlDbType.VarChar, 11).Value = birthNumberTxt.Text;
+                    cmd.Parameters.Add("@BirthNumber", SqlDbType.Char, 11).Value = birthNumberTxt.Text;
                     cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 35).Value = firstNameTxt.Text;
                     cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 35).Value = lastNameTxt.Text;
                     cmd.Parameters.Add("@Address", SqlDbType.VarChar, 128).Value = addressTxt.Text;
@@ -107,7 +107,7 @@ namespace Smart_health_desktop_solution_WPF.Views
                 case "delete":
                     msg = "Row Deleted Successfully!";
 
-                    cmd.Parameters.Add("@BirthNumber", SqlDbType.Int).Value = birthNumberTxt.Text;
+                    cmd.Parameters.Add("@BirthNumber", SqlDbType.Char, 11).Value = birthNumberTxt.Text;
 
                     break;
             }

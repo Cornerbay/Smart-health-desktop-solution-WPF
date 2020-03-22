@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Smart_health_desktop_solution_WPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-                         Loaded="UserControl_Loaded" Unloaded="UserControl_Unloaded">
+             Loaded="UserControl_Loaded" Unloaded="UserControl_Unloaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -42,19 +42,21 @@
                 <Label Content="DoctorID"/>
                 <ComboBox x:Name="doctorIDTxt" Text="Choose a doctor" IsEditable="True" IsReadOnly="True" MinWidth="100"/>
                 <Label Content="Date"/>
-                <DatePicker x:Name="datePicker"/>
+                <DatePicker x:Name="appointmentDatePicker"/>
                 <Label Content="Time"/>
-                <DatePicker x:Name="birthdateDatePicker" MinWidth="100"/>
-                <Label Content="Email"/>
-                <TextBox x:Name="emailTxt" MinWidth="100"/>
-                <Label Content="Password"/>
-                <TextBox x:Name="passwordTxt" MinWidth="100"/>
-                <Label Content="Phone Number"/>
-                <TextBox x:Name="phoneTxt" MinWidth="100"/>
-                <Label Content="Postal Code"/>
-                <TextBox x:Name="postalCodeTxt" MaxLength="4" PreviewTextInput="onlyNumbers_PreviewTextInput" DataObject.Pasting="onlyNumber_Pasting" MinWidth="100"/>
-                <Label Content="Town"/>
-                <TextBox x:Name="townTxt" MinWidth="100"/>
+                <StackPanel Orientation="Horizontal">
+                    <ComboBox x:Name="appointmentTimeHourPicker" IsEditable="True" IsReadOnly="True"/>
+                    <TextBlock Text=":"/>
+                    <ComboBox Name="appointmentTimeMinutesPicker" IsEditable="True" IsReadOnly="True"/>
+                </StackPanel>
+                <Label Content="Cause of Appointment"/>
+                <TextBox x:Name="appointmentCauseTxt" MinWidth="100"
+                        TextWrapping="Wrap"
+                        AcceptsReturn="True"
+                        VerticalScrollBarVisibility="Visible"
+                 />
+                <Label Content="Appointment Status"/>
+                <ComboBox x:Name="appointmentStatusComboBox" MinWidth="100"/>
                 <Grid MinHeight="40" MinWidth="140">
                     <Button x:Name="addBtn" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,21" Click="addBtnClick"/>
                     <Button x:Name="updateBtn" Content="Update" HorizontalAlignment="Center" VerticalAlignment="Top" Click="updateBtnClick"/>
