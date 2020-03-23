@@ -82,6 +82,7 @@
     <Compile Include="ViewModels\Communication.cs" />
     <Compile Include="ViewModels\Doctor.cs" />
     <Compile Include="ViewModels\Location.cs" />
+    <Compile Include="ViewModels\MedicalHistory.cs" />
     <Compile Include="ViewModels\Patient.cs" />
     <Compile Include="ViewModels\Specialization.cs" />
     <Compile Include="Views\Appointment.xaml.cs">
@@ -95,6 +96,9 @@
     </Compile>
     <Compile Include="Views\Location.xaml.cs">
       <DependentUpon>Location.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MedicalHistory.xaml.cs">
+      <DependentUpon>MedicalHistory.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Patient.xaml.cs">
       <DependentUpon>Patient.xaml</DependentUpon>
@@ -128,6 +132,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Location.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MedicalHistory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

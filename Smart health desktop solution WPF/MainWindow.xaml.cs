@@ -55,5 +55,10 @@ namespace Smart_health_desktop_solution_WPF
         {
             DataContext = new Appointment();
         }
+
+        private void medicalHistoryBtnClicked(object sender, RoutedEventArgs e)
+        {
+            DataContext = new MedicalHistory();
+        }
     }
 }

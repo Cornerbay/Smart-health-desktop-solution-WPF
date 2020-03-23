@@ -25,6 +25,9 @@
         <DataTemplate x:Name="appointmentTableView" DataType="{x:Type viewmodels:Appointment}">
             <views:Appointment DataContext="{Binding}"/>
         </DataTemplate>
+        <DataTemplate x:Name="medicalHistoryTableView" DataType="{x:Type viewmodels:MedicalHistory}">
+            <views:MedicalHistory DataContext="{Binding}"/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -49,6 +52,7 @@
                 <Button Content="Location" Click="locationBtnClicked"/>
                 <Button Content="Patient" Click="patientBtnClicked"/>
                 <Button Content="Appointment" Click="appointmentBtnClicked"/>
+                <Button Content="MedicalHistory" Click="medicalHistoryBtnClicked"/>
             </StackPanel>
         </DockPanel>
 
