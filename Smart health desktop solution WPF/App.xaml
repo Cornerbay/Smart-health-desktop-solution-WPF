@@ -4,5 +4,126 @@
              xmlns:local="clr-namespace:Smart_health_desktop_solution_WPF"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        
+        <!-- Default Button style-->
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="WhiteSmoke"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="MinWidth" Value="70"/>
+            <Setter Property="MinHeight" Value="30"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                            CornerRadius="5"
+                                            BorderThickness="1"
+                                            BorderBrush="#000">     
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}"
+                                            CornerRadius="5"
+                                            BorderThickness="1"
+                                            BorderBrush="#000">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                            </ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#FFBEE6FD"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="Red"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#FFC4E5F6"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FF2C628B"/>
+                            </Trigger>
+                            <Trigger Property="ToggleButton.IsChecked" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#FFBCDDEE"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FF245A83"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
+                                <Setter Property="Foreground" Value="Gray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Default textblock style-->
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="Segue UI"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <!-- Default Label style-->
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        
+        <!-- Label title -->
+        <Style BasedOn="{StaticResource {x:Type Label}}"
+               TargetType="Label"
+               x:Key="title">
+            <Setter Property="FontSize" Value="46"/>
+        </Style>
+
+        <!-- Label title small-->
+        <Style BasedOn="{StaticResource {x:Type Label}}"
+               TargetType="Label"
+               x:Key="titleSmall">
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+        
+        <!-- Textblock title-->
+        <Style TargetType="TextBlock"
+               x:Key="textBlockTitle">
+            <Setter Property="FontFamily" Value="Montserrat sans seriff"/>
+            <Setter Property="FontSize" Value="40"/>
+            <Setter Property="FontWeight" Value="Regular"/>
+        </Style>
+        
+        <!-- Textblock small title-->
+        <Style TargetType="TextBlock"
+               x:Key="textBlockSmallTitle">
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+        
+        <!-- Search textbox preview style-->
+        <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib" x:Key="searchBox">
+            <Style.Resources>
+                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" Stretch="None">
+                    <VisualBrush.Visual>
+                        <Label Content="Search" Foreground="Gray" />
+                    </VisualBrush.Visual>
+                </VisualBrush>
+            </Style.Resources>
+            <Style.Triggers>
+                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                </Trigger>
+                <Trigger Property="Text" Value="{x:Null}">
+                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Background" Value="White" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
     </Application.Resources>
 </Application>

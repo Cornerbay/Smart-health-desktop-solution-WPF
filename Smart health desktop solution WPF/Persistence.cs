@@ -54,6 +54,32 @@ namespace Smart_health_desktop_solution_WPF
             return dt;
         }
 
+        internal DataTable SearchTable(string table, string column, string search)
+        {
+            setConnection();
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+
+            search = "%" + search + "%";
+            cmd.Parameters.Add("@Search", SqlDbType.VarChar).Value = search;
+            cmd.CommandText = "select * from "+ table + " where " + column + " LIKE @Search ;";
+
+            DataTable dt = new DataTable();
+            dt.Load(cmd.ExecuteReader());
+            con.Close();
+
+            return dt;
+        }
+
+        private Object[] FindTypeAndLength(string table, string column)
+        {
+            string querySentence = "SELECT DATA_TYPE, CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '"+
+                                    table +"' AND COLUMN_NAME = '" + column + "';";
+            DataRow dr = ExecuteReadQuery(querySentence).Rows[0];
+            object[] typeAndLength = { dr["DATA_TYPE"], dr["CHARACTER_MAXIMUM_LENGTH"] };
+            return typeAndLength;
+        }
+
         internal DataTable GetSchema()
         {
             SqlCommand cmd = new SqlCommand();
@@ -77,6 +103,39 @@ namespace Smart_health_desktop_solution_WPF
                 comboBox.Items.Add(row[column]);
             }
         }
+
+        internal void setComboBox(ComboBox comboBox, string table, int column)
+        {
+            DataTable tableData = ReadTable(table);
+
+            foreach (DataRow row in tableData.Rows)
+            {
+                comboBox.Items.Add(row[column]);
+            }
+        }
+
+
+        internal void setComboBox(ComboBox comboBox, string table, int column, int column2)
+        {
+            DataTable tableData = ReadTable(table);
+
+            foreach (DataRow row in tableData.Rows)
+            {
+                string[] array = { row[column].ToString(), row[column2].ToString() };
+                comboBox.Items.Add(array);
+            }
+        }
+
+        internal void setComboBox(ComboBox comboBox, string table, int column, int column2, int column3)
+        {
+            DataTable tableData = ReadTable(table);
+
+            foreach (DataRow row in tableData.Rows)
+            {
+                comboBox.Items.Add(row[column]);
+            }
+        }
+
     }
 }
 

@@ -23,16 +23,18 @@ namespace Smart_health_desktop_solution_WPF.Views
         private static readonly string connectionString = "Server=tcp:healthcare-app2000.database.windows.net,1433;Initial Catalog=healthcare-app;Persist Security Info=False;User ID=designerkaktus;Password=HestErBest!!!1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         private SqlConnection con = null;
         private String table = "Appointment";
+        private Persistence persistence = new Persistence();
         public Appointment()
         {
             setConnection();
             InitializeComponent();
-            Persistence persistence = new Persistence();
             loadTimeComboBoxes();
             loadStatusComboBox();
 
             persistence.setComboBox(patientBirthNumberTxt, persistence.ReadTable("Patient"), 0);
             persistence.setComboBox(doctorIDTxt, persistence.ReadTable("Doctor"), 0);
+            setSearchComboBox();
+
         }
 
 
@@ -52,9 +54,23 @@ namespace Smart_health_desktop_solution_WPF.Views
 
         private void updateDataGrid()
         {
-            Persistence persistence = new Persistence();
-            DataTable dt = persistence.ReadTable(table);
-            myDataGrid.ItemsSource = dt.DefaultView;
+            DataTable dt;
+            if (string.IsNullOrWhiteSpace(searchTxt.Text))
+            {
+                dt = persistence.ReadTable(table);
+                myDataGrid.ItemsSource = dt.DefaultView;
+            }
+            else if(!(columnComboBox.SelectedIndex > -1))
+            {
+                searchTxt.Visibility = Visibility.Visible;
+                dt = persistence.ReadTable(table);
+                myDataGrid.ItemsSource = dt.DefaultView;
+            }
+            else
+            {
+                dt = persistence.SearchTable(table, columnComboBox.SelectedItem.ToString(), searchTxt.Text);
+                myDataGrid.ItemsSource = dt.DefaultView;
+            }
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
@@ -125,7 +141,6 @@ namespace Smart_health_desktop_solution_WPF.Views
 
         private void addBtnClick(object sender, RoutedEventArgs e)
         {
-            //sjekk hvordan parameters add som står over fungerer.
             String sql = "INSERT INTO " + table +
                             " (PatientBirthNumber, DoctorID, AppointmentDate, AppointmentTime, AppointmentCause, AppointmentStatus) " +
                             "VALUES(@PatientBirthNumber, @DoctorID, @AppointmentDate, @AppointmentTime, @AppointmentCause, @AppointmentStatus);";
@@ -182,7 +197,7 @@ namespace Smart_health_desktop_solution_WPF.Views
 
         private void resetAll()
         {
-            appointmentIDTxt.Text = "";
+            appointmentIDTxt.Text = "Auto assigned";
             patientBirthNumberTxt.Text = "";
             doctorIDTxt.Text = "";
             appointmentDatePicker.SelectedDate= null;
@@ -238,6 +253,29 @@ namespace Smart_health_desktop_solution_WPF.Views
                     break;
             }
                    return statusValue;
+        }
+
+        private void setSearchComboBox()
+        {
+            DataTable dt = persistence.GetColumnNames(table);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                columnComboBox.Items.Add(row[0].ToString());
+            }
+        }
+
+        private void searchUpdate(object sender, TextChangedEventArgs e)
+        {
+            this.updateDataGrid();
+        }
+
+        private void columnBoxChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((columnComboBox.SelectedIndex > -1))
+            {
+                searchTxt.Visibility = Visibility.Visible;
+            }
         }
     }
 }

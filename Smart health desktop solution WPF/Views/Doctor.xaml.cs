@@ -25,15 +25,15 @@ namespace Smart_health_desktop_solution_WPF.Views
         private static readonly string connectionString = "Server=tcp:healthcare-app2000.database.windows.net,1433;Initial Catalog=healthcare-app;Persist Security Info=False;User ID=designerkaktus;Password=HestErBest!!!1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         private SqlConnection con=null;
         private String table = "Doctor";
+        private Persistence persistence = new Persistence();
         public Doctor()
         {
             setConnection();
             InitializeComponent();
-            Persistence persistence = new Persistence();
 
-            persistence.setComboBox(specializationList, persistence.ReadTable("Specialization"), 0);
-            persistence.setComboBox(locationList, persistence.ReadTable("Location"), 0);
-
+            persistence.setComboBox(specializationList, "Specialization", 0);
+            persistence.setComboBox(locationList, "Location", 0);
+            setSearchComboBox();
         }
 
 
@@ -53,9 +53,23 @@ namespace Smart_health_desktop_solution_WPF.Views
 
         private void updateDataGrid()
         {
-            Persistence persistence = new Persistence();
-            DataTable dt = persistence.ReadTable(table);
-            myDataGrid.ItemsSource = dt.DefaultView;
+            DataTable dt;
+            if (string.IsNullOrWhiteSpace(searchTxt.Text))
+            {
+                dt = persistence.ReadTable(table);
+                myDataGrid.ItemsSource = dt.DefaultView;
+            }
+            else if (!(columnComboBox.SelectedIndex > -1))
+            {
+                searchTxt.Visibility = Visibility.Visible;
+                dt = persistence.ReadTable(table);
+                myDataGrid.ItemsSource = dt.DefaultView;
+            }
+            else
+            {
+                dt = persistence.SearchTable(table, columnComboBox.SelectedItem.ToString(), searchTxt.Text);
+                myDataGrid.ItemsSource = dt.DefaultView;
+            }
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
@@ -81,19 +95,19 @@ namespace Smart_health_desktop_solution_WPF.Views
             {
                 case "add":
                     msg = "Row Inserted Successfully!";
-                    cmd.Parameters.Add("@Specialization", SqlDbType.VarChar, 64).Value = specializationList.SelectedItem;
+                    cmd.Parameters.Add("@SpecializationID", SqlDbType.Int).Value = Int32.Parse(specializationList.SelectedItem.ToString());
                     cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 35).Value = firstNameTxt.Text;
                     cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 35).Value = lastNameTxt.Text;
-                    cmd.Parameters.Add("@Location", SqlDbType.VarChar, 64).Value = locationList.SelectedItem;
+                    cmd.Parameters.Add("@LocationID", SqlDbType.Int).Value = Int32.Parse(locationList.SelectedItem.ToString());
 
                     break;
                 case "update":
                     msg = "Row Updated Successfully!";
                     cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse(doctorIDTxt.Text);
-                    cmd.Parameters.Add("@Specialization", SqlDbType.VarChar, 64).Value = specializationList.SelectedItem;
+                    cmd.Parameters.Add("@SpecializationID", SqlDbType.Int).Value = Int32.Parse(specializationList.SelectedItem.ToString());
                     cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 35).Value = firstNameTxt.Text;
                     cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 35).Value = lastNameTxt.Text;
-                    cmd.Parameters.Add("@Location", SqlDbType.VarChar, 64).Value = locationList.SelectedItem;
+                    cmd.Parameters.Add("@LocationID", SqlDbType.Int).Value = Int32.Parse(locationList.SelectedItem.ToString());
 
                     break;
                 case "delete":
@@ -112,21 +126,24 @@ namespace Smart_health_desktop_solution_WPF.Views
                     this.updateDataGrid();
                 }
             }
-            catch (Exception expe) { }
+            catch (Exception expe) 
+            {
+                MessageBox.Show(expe.ToString());
+            }
         }
 
         private void addBtnClick(object sender, RoutedEventArgs e)
         {
-            //sjekk hvordan parameters add som står over fungerer.
-            String sql =    "INSERT INTO Doctor(Specialization, FirstName, LastName, Location) " +
-                            "VALUES(@Specialization, @FirstName, @LastName, @Location);";
+            String sql =    "INSERT INTO Doctor(SpecializationID, FirstName, LastName, LocationID) " +
+                            "VALUES(@SpecializationID, @FirstName, @LastName, @LocationID);";
             this.AUD(sql, "add");
         }
 
         private void updateBtnClick(object sender, RoutedEventArgs e)
         {
-            String sql =    "UPDATE Doctor SET Specialization = @Specialization," +
-                            "FirstName=@Firstname, LastName=@LastName, Location = @Location " +
+            String sql = "UPDATE " + table + " SET " +
+                            "SpecializationID = @SpecializationID," +
+                            "FirstName=@Firstname, LastName=@LastName, LocationID = @LocationID " +
                             "WHERE DoctorID = @DoctorID";
             this.AUD(sql, "update");
         }
@@ -138,10 +155,10 @@ namespace Smart_health_desktop_solution_WPF.Views
             if (dr != null)
             {
                 doctorIDTxt.Text = dr["DoctorID"].ToString();
-                specializationList.SelectedItem = dr["Specialization"].ToString();
+                specializationList.SelectedItem = dr["SpecializationID"];
                 firstNameTxt.Text = dr["FirstName"].ToString();
                 lastNameTxt.Text = dr["LastName"].ToString();
-                locationList.SelectedItem = dr["Location"].ToString();
+                locationList.SelectedItem = dr["LocationID"];
 
                 addBtn.IsEnabled = false;
                 updateBtn.IsEnabled = true;
@@ -152,8 +169,8 @@ namespace Smart_health_desktop_solution_WPF.Views
 
         private void deleteBtnClick(object sender, RoutedEventArgs e)
         {
-            String sql =    "DELETE FROM Doctor " +
-                            "WHERE DoctorID = @DoctorID";
+            String sql =    "DELETE FROM " + table +
+                            " WHERE DoctorID = @DoctorID;";
             this.AUD(sql, "delete");
             this.resetAll();
         }
@@ -174,6 +191,29 @@ namespace Smart_health_desktop_solution_WPF.Views
             addBtn.IsEnabled = true;
             updateBtn.IsEnabled = false;
             deleteBtn.IsEnabled = false;
+        }
+
+        private void setSearchComboBox()
+        {
+            DataTable dt = persistence.GetColumnNames(table);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                columnComboBox.Items.Add(row[0].ToString());
+            }
+        }
+
+        private void searchUpdate(object sender, TextChangedEventArgs e)
+        {
+            this.updateDataGrid();
+        }
+
+        private void columnBoxChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((columnComboBox.SelectedIndex > -1))
+            {
+                searchTxt.Visibility = Visibility.Visible;
+            }
         }
     }
 }
