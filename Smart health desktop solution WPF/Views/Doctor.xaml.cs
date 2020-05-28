@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static Smart_health_desktop_solution_WPF.Persistence;
 
 namespace Smart_health_desktop_solution_WPF.Views
 {
@@ -31,8 +32,8 @@ namespace Smart_health_desktop_solution_WPF.Views
             setConnection();
             InitializeComponent();
 
-            persistence.setComboBox(specializationList, "Specialization", 0);
-            persistence.setComboBox(locationList, "Location", 0);
+            persistence.setComboBox(specializationList, "Specialization", 0,1);
+            persistence.setComboBox(locationList, "Location", 0,1);
             setSearchComboBox();
         }
 
@@ -95,19 +96,19 @@ namespace Smart_health_desktop_solution_WPF.Views
             {
                 case "add":
                     msg = "Row Inserted Successfully!";
-                    cmd.Parameters.Add("@SpecializationID", SqlDbType.Int).Value = Int32.Parse(specializationList.SelectedItem.ToString());
+                    cmd.Parameters.Add("@SpecializationID", SqlDbType.Int).Value = Int32.Parse((specializationList.SelectedItem as ComboboxItem).Value.ToString());
                     cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 35).Value = firstNameTxt.Text;
                     cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 35).Value = lastNameTxt.Text;
-                    cmd.Parameters.Add("@LocationID", SqlDbType.Int).Value = Int32.Parse(locationList.SelectedItem.ToString());
+                    cmd.Parameters.Add("@LocationID", SqlDbType.Int).Value = Int32.Parse((locationList.SelectedItem as ComboboxItem).Value.ToString());
 
                     break;
                 case "update":
                     msg = "Row Updated Successfully!";
                     cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse(doctorIDTxt.Text);
-                    cmd.Parameters.Add("@SpecializationID", SqlDbType.Int).Value = Int32.Parse(specializationList.SelectedItem.ToString());
+                    cmd.Parameters.Add("@SpecializationID", SqlDbType.Int).Value = Int32.Parse((specializationList.SelectedItem as ComboboxItem).Value.ToString());
                     cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 35).Value = firstNameTxt.Text;
                     cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 35).Value = lastNameTxt.Text;
-                    cmd.Parameters.Add("@LocationID", SqlDbType.Int).Value = Int32.Parse(locationList.SelectedItem.ToString());
+                    cmd.Parameters.Add("@LocationID", SqlDbType.Int).Value = Int32.Parse((locationList.SelectedItem as ComboboxItem).Value.ToString());
 
                     break;
                 case "delete":
@@ -158,7 +159,25 @@ namespace Smart_health_desktop_solution_WPF.Views
                 specializationList.SelectedItem = dr["SpecializationID"];
                 firstNameTxt.Text = dr["FirstName"].ToString();
                 lastNameTxt.Text = dr["LastName"].ToString();
-                locationList.SelectedItem = dr["LocationID"];
+                //locationList.SelectedItem = dr["LocationID"].ToString();
+
+                foreach(object listItem in specializationList.Items)
+                {
+                    if((listItem as ComboboxItem).Value.ToString().Equals(dr["SpecializationID"].ToString()))
+                    {
+                        specializationList.SelectedItem = listItem;
+                        break;
+                    }
+                }
+
+                foreach(object listItem in locationList.Items)
+                {
+                    if ((listItem as ComboboxItem).Value.ToString().Equals(dr["LocationID"].ToString()))
+                    {
+                        locationList.SelectedItem = listItem;
+                        break;
+                    }
+                }
 
                 addBtn.IsEnabled = false;
                 updateBtn.IsEnabled = true;
@@ -215,5 +234,7 @@ namespace Smart_health_desktop_solution_WPF.Views
                 searchTxt.Visibility = Visibility.Visible;
             }
         }
+
+
     }
 }

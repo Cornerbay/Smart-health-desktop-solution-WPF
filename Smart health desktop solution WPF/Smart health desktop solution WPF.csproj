@@ -86,6 +86,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SecurePasswordHasher.cs" />
     <Compile Include="ViewModels\Appointment.cs" />
     <Compile Include="ViewModels\Communication.cs" />
     <Compile Include="ViewModels\Doctor.cs" />
