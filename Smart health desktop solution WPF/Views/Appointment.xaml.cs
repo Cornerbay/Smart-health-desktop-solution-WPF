@@ -31,7 +31,7 @@ namespace Smart_health_desktop_solution_WPF.Views
             loadTimeComboBoxes();
             loadStatusComboBox();
 
-            persistence.setComboBox(patientBirthNumberTxt, persistence.ReadTable("Patient"), 0);
+            persistence.setComboBox(patientBirthNumberTxt, "Patient" , 0, 1, 2);
             persistence.setComboBox(doctorIDTxt, persistence.ReadTable("Doctor"), 0);
             setSearchComboBox();
 
@@ -174,6 +174,7 @@ namespace Smart_health_desktop_solution_WPF.Views
                 appointmentCauseTxt.Text = dr["AppointmentCause"].ToString();
                 appointmentStatusComboBox.SelectedItem = dr["AppointmentStatus"].ToString();
 
+                setStatusComboBox(dr["AppointmentStatus"].ToString());
 
                 addBtn.IsEnabled = false;
                 updateBtn.IsEnabled = true;
@@ -253,6 +254,22 @@ namespace Smart_health_desktop_solution_WPF.Views
                     break;
             }
                    return statusValue;
+        }
+
+        private void setStatusComboBox(string status)
+        {
+            switch (status)
+            {
+                case "1":
+                    appointmentStatusComboBox.SelectedIndex = 1;
+                    break;
+                case "0":
+                    appointmentStatusComboBox.SelectedIndex = 0;
+                    break;
+                case null:
+                    appointmentStatusComboBox.SelectedIndex = 0;
+                    break;
+            }
         }
 
         private void setSearchComboBox()

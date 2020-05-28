@@ -135,7 +135,7 @@ namespace Smart_health_desktop_solution_WPF.Views
 
         private void addBtnClick(object sender, RoutedEventArgs e)
         {
-            String sql =    "INSERT INTO Doctor(SpecializationID, FirstName, LastName, LocationID) " +
+            String sql =    "INSERT INTO " + table + " (SpecializationID, FirstName, LastName, LocationID) " +
                             "VALUES(@SpecializationID, @FirstName, @LastName, @LocationID);";
             this.AUD(sql, "add");
         }

@@ -26,11 +26,13 @@ namespace Smart_health_desktop_solution_WPF.Views
         private static readonly string connectionString = "Server=tcp:healthcare-app2000.database.windows.net,1433;Initial Catalog=healthcare-app;Persist Security Info=False;User ID=designerkaktus;Password=HestErBest!!!1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         private SqlConnection con = null;
         private String table = "Location";
+        private Persistence persistence = new Persistence();
+
         public Location()
         {
             setConnection();
             InitializeComponent();
-            Persistence persistence = new Persistence();
+            setSearchComboBox();
 
         }
 
@@ -51,9 +53,23 @@ namespace Smart_health_desktop_solution_WPF.Views
 
         private void updateDataGrid()
         {
-            Persistence persistence = new Persistence();
-            DataTable dt = persistence.ReadTable(table);
-            myDataGrid.ItemsSource = dt.DefaultView;
+            DataTable dt;
+            if (string.IsNullOrWhiteSpace(searchTxt.Text))
+            {
+                dt = persistence.ReadTable(table);
+                myDataGrid.ItemsSource = dt.DefaultView;
+            }
+            else if (!(columnComboBox.SelectedIndex > -1))
+            {
+                searchTxt.Visibility = Visibility.Visible;
+                dt = persistence.ReadTable(table);
+                myDataGrid.ItemsSource = dt.DefaultView;
+            }
+            else
+            {
+                dt = persistence.SearchTable(table, columnComboBox.SelectedItem.ToString(), searchTxt.Text);
+                myDataGrid.ItemsSource = dt.DefaultView;
+            }
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
@@ -79,14 +95,14 @@ namespace Smart_health_desktop_solution_WPF.Views
             {
                 case "add":
                     msg = "Row Inserted Successfully!";
-                    cmd.Parameters.Add("@Location", SqlDbType.VarChar, 64).Value = locationTxt.Text;
-                    if (showLocationYes.IsChecked==true)
+                    cmd.Parameters.Add("@LocationName", SqlDbType.VarChar, 64).Value = locationNameTxt.Text;
+                    if (showLocationComboBox.SelectedItem.ToString().Equals("Yes"))
                     {
                         cmd.Parameters.Add("@ShowLocation", SqlDbType.TinyInt).Value = 1;
-                    } if(showLocationNo.IsChecked==true)
+                    } if(showLocationComboBox.SelectedItem.ToString().Equals("No"))
                     {
                         cmd.Parameters.Add("@ShowLocation", SqlDbType.TinyInt).Value = 0;
-                    }if(showLocationNo.IsChecked==false && showLocationYes.IsChecked == false)
+                    }else
                     {
                         cmd.Parameters.Add("@ShowLocation", SqlDbType.TinyInt).Value = 0;
                     }
@@ -94,16 +110,17 @@ namespace Smart_health_desktop_solution_WPF.Views
                     break;
                 case "update":
                     msg = "Row Updated Successfully!";
-                    cmd.Parameters.Add("@Location", SqlDbType.VarChar, 64).Value = locationTxt.Text;
-                    if (showLocationYes.IsChecked == true)
+                    cmd.Parameters.Add("@LocationID", SqlDbType.Int).Value = Int32.Parse(locationIDTxt.Text);
+                    cmd.Parameters.Add("@LocationName", SqlDbType.VarChar, 64).Value = locationNameTxt.Text;
+                    if (showLocationComboBox.SelectedValue.ToString().Equals("Yes"))
                     {
                         cmd.Parameters.Add("@ShowLocation", SqlDbType.TinyInt).Value = 1;
                     }
-                    if (showLocationNo.IsChecked == true)
+                    else if (showLocationComboBox.SelectedValue.ToString().Equals("No"))
                     {
                         cmd.Parameters.Add("@ShowLocation", SqlDbType.TinyInt).Value = 0;
                     }
-                    if (showLocationNo.IsChecked == false && showLocationYes.IsChecked == false)
+                    else
                     {
                         cmd.Parameters.Add("@ShowLocation", SqlDbType.TinyInt).Value = 0;
                     }
@@ -111,7 +128,7 @@ namespace Smart_health_desktop_solution_WPF.Views
                 case "delete":
                     msg = "Row Deleted Successfully!";
 
-                    cmd.Parameters.Add("@Location", SqlDbType.VarChar, 64).Value = locationTxt.Text;
+                    cmd.Parameters.Add("@LocationID", SqlDbType.Int).Value = Int32.Parse(locationIDTxt.Text);
 
                     break;
             }
@@ -133,15 +150,17 @@ namespace Smart_health_desktop_solution_WPF.Views
         private void addBtnClick(object sender, RoutedEventArgs e)
         {
             //sjekk hvordan parameters add som står over fungerer.
-            String sql = "INSERT INTO Location(Location, ShowLocation) " +
-                            "VALUES(@Location, @ShowLocation);";
+            String sql = "INSERT INTO " + table + " (LocationName, ShowLocation) " +
+                            "VALUES(@LocationName, @ShowLocation);";
             this.AUD(sql, "add");
         }
 
         private void updateBtnClick(object sender, RoutedEventArgs e)
         {
-            String sql = "UPDATE Location SET ShowLocation = @ShowLocation " +
-                            "WHERE Location = @Location";
+            String sql = "UPDATE " + table + " SET " +
+                            "LocationName = @LocationName, " +
+                            "ShowLocation = @ShowLocation " +
+                            "WHERE LocationID = @LocationID;";
             this.AUD(sql, "update");
         }
 
@@ -151,18 +170,18 @@ namespace Smart_health_desktop_solution_WPF.Views
             DataRowView dr = dg.SelectedItem as DataRowView;
             if (dr != null)
             {
-                locationTxt.Text = dr["Location"].ToString();
+                locationIDTxt.Text = dr["LocationID"].ToString();
+                locationNameTxt.Text = dr["LocationName"].ToString();
                 if (dr["ShowLocation"] == System.DBNull.Value)
                 {
-                    showLocationYes.IsChecked = false;
-                    showLocationNo.IsChecked = false;
+                    showLocationComboBox.SelectedIndex = 1;
                 }else if (Convert.ToInt32(dr["ShowLocation"]) == 1)
                 {
-                    showLocationYes.IsChecked = true;
-                }else if(Convert.ToInt32(dr["ShowLocation"]) == 0)
+                    showLocationComboBox.SelectedIndex = 0;
+                }
+                else if(Convert.ToInt32(dr["ShowLocation"]) == 0)
                 {
-                    showLocationNo.IsChecked = true;
-                
+                    showLocationComboBox.SelectedIndex = 1;
                 }
 
                 addBtn.IsEnabled = false;
@@ -175,7 +194,7 @@ namespace Smart_health_desktop_solution_WPF.Views
         private void deleteBtnClick(object sender, RoutedEventArgs e)
         {
             String sql = "DELETE FROM Location " +
-                            "WHERE Location = @Location";
+                            "WHERE Location = @LocationID";
             this.AUD(sql, "delete");
             this.resetAll();
         }
@@ -187,23 +206,37 @@ namespace Smart_health_desktop_solution_WPF.Views
 
         private void resetAll()
         {
-            locationTxt.Text = "";
-            showLocationYes.IsChecked = false;
-            showLocationNo.IsChecked = false;
+            locationIDTxt.Text = "Auto Assigned";
+            locationNameTxt.Text = "";
+            showLocationComboBox.Text = "--Choose an option--";
 
             addBtn.IsEnabled = true;
             updateBtn.IsEnabled = false;
             deleteBtn.IsEnabled = false;
         }
 
-        private void showLocationYes_Checked(object sender, RoutedEventArgs e)
+
+        private void setSearchComboBox()
         {
-            showLocationNo.IsChecked = false;
+            DataTable dt = persistence.GetColumnNames(table);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                columnComboBox.Items.Add(row[0].ToString());
+            }
         }
 
-        private void showLocationNo_Checked(object sender, RoutedEventArgs e)
+        private void searchUpdate(object sender, TextChangedEventArgs e)
         {
-            showLocationYes.IsChecked = false;
+            this.updateDataGrid();
+        }
+
+        private void columnBoxChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((columnComboBox.SelectedIndex > -1))
+            {
+                searchTxt.Visibility = Visibility.Visible;
+            }
         }
     }
 }

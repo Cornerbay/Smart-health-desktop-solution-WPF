@@ -27,11 +27,12 @@ namespace Smart_health_desktop_solution_WPF.Views
         private SqlConnection con = null;
         private String table = "Patient";
         private static readonly Regex _regex = new Regex("[^0-9]+"); //regex that matches disallowed text
+        private Persistence persistence = new Persistence();
         public Patient()
         {
             setConnection();
             InitializeComponent();
-            Persistence persistence = new Persistence();
+            setSearchComboBox();
         }
 
         private void setConnection()
@@ -50,9 +51,23 @@ namespace Smart_health_desktop_solution_WPF.Views
 
         private void updateDataGrid()
         {
-            Persistence persistence = new Persistence();
-            DataTable dt = persistence.ReadTable(table);
-            myDataGrid.ItemsSource = dt.DefaultView;
+            DataTable dt;
+            if (string.IsNullOrWhiteSpace(searchTxt.Text))
+            {
+                dt = persistence.ReadTable(table);
+                myDataGrid.ItemsSource = dt.DefaultView;
+            }
+            else if (!(columnComboBox.SelectedIndex > -1))
+            {
+                searchTxt.Visibility = Visibility.Visible;
+                dt = persistence.ReadTable(table);
+                myDataGrid.ItemsSource = dt.DefaultView;
+            }
+            else
+            {
+                dt = persistence.SearchTable(table, columnComboBox.SelectedItem.ToString(), searchTxt.Text);
+                myDataGrid.ItemsSource = dt.DefaultView;
+            }
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
@@ -223,6 +238,29 @@ namespace Smart_health_desktop_solution_WPF.Views
             else
             {
                 e.CancelCommand();
+            }
+        }
+
+        private void setSearchComboBox()
+        {
+            DataTable dt = persistence.GetColumnNames(table);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                columnComboBox.Items.Add(row[0].ToString());
+            }
+        }
+
+        private void searchUpdate(object sender, TextChangedEventArgs e)
+        {
+            this.updateDataGrid();
+        }
+
+        private void columnBoxChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((columnComboBox.SelectedIndex > -1))
+            {
+                searchTxt.Visibility = Visibility.Visible;
             }
         }
 

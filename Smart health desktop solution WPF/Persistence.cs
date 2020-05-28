@@ -135,7 +135,11 @@ namespace Smart_health_desktop_solution_WPF
 
             foreach (DataRow row in tableData.Rows)
             {
-                comboBox.Items.Add(row[column]);
+                ComboboxItem item = new ComboboxItem();
+                item.Text = row[column2].ToString() + " " + row[column3];
+                item.Value = row[column].ToString();
+
+                comboBox.Items.Add(item);
             }
         }
 
@@ -146,7 +150,7 @@ namespace Smart_health_desktop_solution_WPF
 
             public override string ToString()
             {
-                return Text;
+                return Text + "\n" + "Identifier: " + Value;
             }
         }
 
