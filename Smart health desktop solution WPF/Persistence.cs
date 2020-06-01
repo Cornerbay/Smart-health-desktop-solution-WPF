@@ -54,6 +54,34 @@ namespace Smart_health_desktop_solution_WPF
             return dt;
         }
 
+        internal DataTable ReadMyAppointmentsTable(string table, string userID)
+        {
+            setConnection();
+            SqlCommand cmd = new SqlCommand("select*from " + table + " WHERE DoctorID = " + Int32.Parse(userID) +";", con);
+            DataTable dt = new DataTable();
+            dt.Load(cmd.ExecuteReader());
+            con.Close();
+
+            return dt;
+        }
+
+        internal DataTable SearchMyAppointmentsTable(string table, string column, string search, string userID)
+        {
+            setConnection();
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+
+            search = "%" + search + "%";
+            cmd.Parameters.Add("@Search", SqlDbType.VarChar).Value = search;
+            cmd.CommandText = "select * from " + table + " where " + column + " LIKE @Search AND DoctorID = " + Int32.Parse(userID) + ";";
+
+            DataTable dt = new DataTable();
+            dt.Load(cmd.ExecuteReader());
+            con.Close();
+
+            return dt;
+        }
+
         internal DataTable SearchTable(string table, string column, string search)
         {
             setConnection();

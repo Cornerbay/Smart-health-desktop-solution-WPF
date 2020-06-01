@@ -96,6 +96,7 @@
     <Compile Include="ViewModels\Doctor.cs" />
     <Compile Include="ViewModels\Location.cs" />
     <Compile Include="ViewModels\MedicalHistory.cs" />
+    <Compile Include="ViewModels\MyAppointments.cs" />
     <Compile Include="ViewModels\Patient.cs" />
     <Compile Include="ViewModels\Specialization.cs" />
     <Compile Include="Views\Admin.xaml.cs">
@@ -115,6 +116,9 @@
     </Compile>
     <Compile Include="Views\MedicalHistory.xaml.cs">
       <DependentUpon>MedicalHistory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MyAppointments.xaml.cs">
+      <DependentUpon>MyAppointments.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Patient.xaml.cs">
       <DependentUpon>Patient.xaml</DependentUpon>
@@ -160,6 +164,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MedicalHistory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MyAppointments.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -213,6 +221,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="res\exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\calendar.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

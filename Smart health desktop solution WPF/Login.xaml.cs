@@ -52,14 +52,17 @@ namespace Smart_health_desktop_solution_WPF
             string password = passwordBox.Password;
             string username = usernameTxtBox.Text;
             String[] user = new String[4];
+            string table = null;
 
             switch (roleComboBox.SelectedIndex)
             {
                 case 0:
                     user = persistence.GetUser(username, "Doctor");
+                    table = "Doctor";
                     break;
                 case 1:
                     user = persistence.GetUser(username, "Admin");
+                    table = "Admin";
                     break;
             }
 
@@ -67,8 +70,16 @@ namespace Smart_health_desktop_solution_WPF
             {
                 if (CheckPassword(password, user[1]))
                 {
-                    this.Close();
-                    new MainWindow(user[2]+ " " + user[3]).ShowDialog();
+                    if (table.Equals("Doctor"))
+                    {
+                        this.Close();
+                        new MainWindow(user[2] + " " + user[3],username,table).ShowDialog();
+                    }
+                    else
+                    {
+                        this.Close();
+                        new MainWindow(user[2]+ " " + user[3]).ShowDialog();
+                    }
                 }
                 else
                 {

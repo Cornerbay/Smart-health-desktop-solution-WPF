@@ -25,10 +25,25 @@ namespace Smart_health_desktop_solution_WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        private string userID;
+        private string userTable;
         public MainWindow(string user)
         {
             InitializeComponent();
             userTxtBlock.Text = user;
+        }
+
+        public MainWindow(string user, string iD, string table)
+        {
+            InitializeComponent();
+            userTxtBlock.Text = user;
+            userID = iD;
+
+            if (table.Equals("Doctor"))
+            {
+                myAppointmentsBtn.Visibility = Visibility.Visible;
+            }
+
         }
 
 
@@ -73,6 +88,11 @@ namespace Smart_health_desktop_solution_WPF
         {
             frontPageStackPanel.Visibility = Visibility.Hidden;
             DataContext = new Admin();
+        }
+        private void myAppointmentsBtnClicked(object sender, RoutedEventArgs e)
+        {
+            frontPageStackPanel.Visibility = Visibility.Hidden;
+            DataContext = new Views.MyAppointments(userID);
         }
 
         private void tableManagementBtnClicked(object sender, RoutedEventArgs e)

@@ -61,7 +61,7 @@
                 </StackPanel>
                 <Button Click="tableManagementBtnClicked">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Table management"/>
+                        <TextBlock Text="Data management"/>
                         <Image Source="res/burger.png" Height="15" Margin="20,0,0,0"/>
                     </StackPanel>
                 </Button>
@@ -84,6 +84,14 @@
                         </StackPanel>
                     </Grid>
                 </StackPanel>
+                <Button Click="myAppointmentsBtnClicked"
+                        Name="myAppointmentsBtn"
+                        Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="My Appointments"/>
+                        <Image Source="res/calendar.png" Height="20" Margin="20,0,0,0"/>
+                    </StackPanel>
+                </Button>
                 <Button Click="exitBtnClicked">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Exit"/>
