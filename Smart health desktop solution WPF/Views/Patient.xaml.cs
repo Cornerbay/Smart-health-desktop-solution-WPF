@@ -179,6 +179,7 @@ namespace Smart_health_desktop_solution_WPF.Views
                 addBtn.IsEnabled = false;
                 updateBtn.IsEnabled = true;
                 deleteBtn.IsEnabled = true;
+                passwordTxt.Visibility = Visibility.Hidden;
 
             }
         }
@@ -212,6 +213,7 @@ namespace Smart_health_desktop_solution_WPF.Views
             addBtn.IsEnabled = true;
             updateBtn.IsEnabled = false;
             deleteBtn.IsEnabled = false;
+            passwordTxt.Visibility = Visibility.Visible;
         }
 
     private void onlyNumbers_PreviewTextInput(object sender, TextCompositionEventArgs e)

@@ -43,6 +43,10 @@ namespace Smart_health_desktop_solution_WPF
             {
                 myAppointmentsBtn.Visibility = Visibility.Visible;
             }
+            else if(table.Equals("Admin"))
+            {
+                passwordChangeBtn.Visibility = Visibility.Visible;
+            }
 
         }
 
@@ -111,6 +115,37 @@ namespace Smart_health_desktop_solution_WPF
         {
             System.Windows.Application.Current.Shutdown();
         }
+
+        private void passwordManagementBtnClicked(object sender, RoutedEventArgs e)
+        {
+            if (passwordManagementStackPanel.Visibility == Visibility.Collapsed)
+            {
+                passwordManagementStackPanel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                passwordManagementStackPanel.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void doctorPasswordBtnClicked(object sender, RoutedEventArgs e)
+        {
+            frontPageStackPanel.Visibility = Visibility.Hidden;
+            DataContext = new Views.ManagePassword("Doctor");
+        }
+
+        private void patientPasswordBtnClicked(object sender, RoutedEventArgs e)
+        {
+            frontPageStackPanel.Visibility = Visibility.Hidden;
+            DataContext = new Views.ManagePassword("Patient");
+        }
+
+        private void adminPasswordBtnClicked(object sender, RoutedEventArgs e)
+        {
+            frontPageStackPanel.Visibility = Visibility.Hidden;
+            DataContext = new Views.ManagePassword("Admin");
+        }
+
 
     }
 }

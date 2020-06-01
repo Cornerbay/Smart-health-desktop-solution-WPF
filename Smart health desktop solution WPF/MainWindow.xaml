@@ -92,7 +92,29 @@
                         <Image Source="res/calendar.png" Height="20" Margin="20,0,0,0"/>
                     </StackPanel>
                 </Button>
-                <Button Click="exitBtnClicked">
+
+                <Button Click="passwordManagementBtnClicked" x:Name="passwordChangeBtn" ToolTip="Update passwords" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Password management"/>
+                        <Image Source="res/burger.png" Height="15" Margin="20,0,0,0"/>
+                    </StackPanel>
+                </Button>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="19*"/>
+                        <ColumnDefinition Width="176*"/>
+                        <ColumnDefinition Width="20*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <StackPanel x:Name="passwordManagementStackPanel" Style="{StaticResource VisibleAnimation}" Visibility="Collapsed" Grid.ColumnSpan="3" Margin="19,0,0.2,0">
+                        <Button Content="Doctor Password" Click="doctorPasswordBtnClicked"/>
+                        <Button Content="Patient Password" Click="patientPasswordBtnClicked"/>
+                        <Button Content="Admin Password" Click="adminPasswordBtnClicked"/>
+                    </StackPanel>
+                </Grid>
+
+                <Button Click="exitBtnClicked" >
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Exit"/>
                         <Image Source="res/exit.png" Height="15" Margin="20,0,0,0"/>

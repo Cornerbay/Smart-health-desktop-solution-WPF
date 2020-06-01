@@ -114,6 +114,9 @@
     <Compile Include="Views\Location.xaml.cs">
       <DependentUpon>Location.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ManagePassword.xaml.cs">
+      <DependentUpon>ManagePassword.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MedicalHistory.xaml.cs">
       <DependentUpon>MedicalHistory.xaml</DependentUpon>
     </Compile>
@@ -160,6 +163,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Location.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ManagePassword.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

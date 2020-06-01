@@ -78,7 +78,7 @@ namespace Smart_health_desktop_solution_WPF
                     else
                     {
                         this.Close();
-                        new MainWindow(user[2]+ " " + user[3]).ShowDialog();
+                        new MainWindow(user[2]+ " " + user[3],username,table).ShowDialog();
                     }
                 }
                 else

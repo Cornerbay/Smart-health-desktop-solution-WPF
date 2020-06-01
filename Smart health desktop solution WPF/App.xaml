@@ -115,9 +115,8 @@
         <!-- Textblock title-->
         <Style TargetType="TextBlock"
                x:Key="textBlockTitle">
-            <Setter Property="FontFamily" Value="Montserrat sans seriff"/>
-            <Setter Property="FontSize" Value="40"/>
-            <Setter Property="FontWeight" Value="Regular"/>
+            <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
+            <Setter Property="FontSize" Value="35"/>
         </Style>
         
         <!-- Textblock small title-->
