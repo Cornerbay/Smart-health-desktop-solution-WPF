@@ -86,7 +86,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SecurePasswordHasher.cs" />
+    <Compile Include="ViewModels\Admin.cs" />
     <Compile Include="ViewModels\Appointment.cs" />
     <Compile Include="ViewModels\Communication.cs" />
     <Compile Include="ViewModels\Doctor.cs" />
@@ -94,6 +98,9 @@
     <Compile Include="ViewModels\MedicalHistory.cs" />
     <Compile Include="ViewModels\Patient.cs" />
     <Compile Include="ViewModels\Specialization.cs" />
+    <Compile Include="Views\Admin.xaml.cs">
+      <DependentUpon>Admin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Appointment.xaml.cs">
       <DependentUpon>Appointment.xaml</DependentUpon>
     </Compile>
@@ -115,6 +122,10 @@
     <Compile Include="Views\Specialization.xaml.cs">
       <DependentUpon>Specialization.xaml</DependentUpon>
     </Compile>
+    <Page Include="Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -128,6 +139,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Admin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Appointment.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -189,6 +204,15 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\logo1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\burger.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\exit.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static Smart_health_desktop_solution_WPF.Persistence;
 
 namespace Smart_health_desktop_solution_WPF.Views
 {
@@ -32,7 +33,7 @@ namespace Smart_health_desktop_solution_WPF.Views
             loadStatusComboBox();
 
             persistence.setComboBox(patientBirthNumberTxt, "Patient" , 0, 1, 2);
-            persistence.setComboBox(doctorIDTxt, persistence.ReadTable("Doctor"), 0);
+            persistence.setComboBox(doctorIDTxt, "Doctor", 0, 2, 3);
             setSearchComboBox();
 
         }
@@ -98,8 +99,8 @@ namespace Smart_health_desktop_solution_WPF.Views
             {
                 case "add":
                     msg = "Row Inserted Successfully!";
-                    cmd.Parameters.Add("@PatientBirthNumber", SqlDbType.Char, 11).Value = patientBirthNumberTxt.SelectedItem;
-                    cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse(doctorIDTxt.SelectedItem.ToString());
+                    cmd.Parameters.Add("@PatientBirthNumber", SqlDbType.Char, 11).Value = (patientBirthNumberTxt.SelectedItem as ComboboxItem).Value.ToString();
+                    cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse((doctorIDTxt.SelectedItem as ComboboxItem).Value.ToString());
                     cmd.Parameters.Add("@AppointmentDate", SqlDbType.Date).Value = appointmentDatePicker.SelectedDate;
                     cmd.Parameters.Add("@AppointmentTime", SqlDbType.Time, 7).Value = time;
                     cmd.Parameters.Add("@AppointmentCause", SqlDbType.VarChar, 256).Value = appointmentCauseTxt.Text;
@@ -109,8 +110,8 @@ namespace Smart_health_desktop_solution_WPF.Views
                 case "update":
                     msg = "Row Updated Successfully!";
                     cmd.Parameters.Add("@AppointmentID", SqlDbType.Int).Value = Int32.Parse(appointmentIDTxt.Text);
-                    cmd.Parameters.Add("@PatientBirthNumber", SqlDbType.Char, 11).Value = patientBirthNumberTxt.SelectedItem;
-                    cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse(doctorIDTxt.SelectedItem.ToString());
+                    cmd.Parameters.Add("@PatientBirthNumber", SqlDbType.Char, 11).Value = (patientBirthNumberTxt.SelectedItem as ComboboxItem).Value.ToString();
+                    cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse((doctorIDTxt.SelectedItem as ComboboxItem).Value.ToString());
                     cmd.Parameters.Add("@AppointmentDate", SqlDbType.Date).Value = appointmentDatePicker.SelectedDate;
                     cmd.Parameters.Add("@AppointmentTime", SqlDbType.Time, 7).Value = time;
                     cmd.Parameters.Add("@AppointmentCause", SqlDbType.VarChar, 256).Value = appointmentCauseTxt.Text;
@@ -163,13 +164,41 @@ namespace Smart_health_desktop_solution_WPF.Views
             if (dr != null)
             {
                 appointmentIDTxt.Text = dr["AppointmentID"].ToString();
-                patientBirthNumberTxt.Text = dr["PatientBirthNumber"].ToString();
-                doctorIDTxt.Text = dr["DoctorID"].ToString();
+
+                foreach (object listItem in patientBirthNumberTxt.Items)
+                {
+                    if ((listItem as ComboboxItem).Value.ToString().Equals(dr["PatientBirthNumber"].ToString()))
+                    {
+                        patientBirthNumberTxt.SelectedItem = listItem;
+                        break;
+                    }
+                }
+
+                foreach (object listItem in doctorIDTxt.Items)
+                {
+                    if ((listItem as ComboboxItem).Value.ToString().Equals(dr["DoctorID"].ToString()))
+                    {
+                        doctorIDTxt.SelectedItem = listItem;
+                        break;
+                    }
+                }
+
                 appointmentDatePicker.SelectedDate = DateTime.Parse(dr["AppointmentDate"].ToString());
 
                 string[] time = dr["AppointmentTime"].ToString().Split(':');
+
                 appointmentTimeHourPicker.SelectedItem = time[0];
-                appointmentTimeMinutesPicker.SelectedItem = time[1];
+
+
+                int minutes = Int32.Parse(time[1]);
+                if(minutes < 31)
+                {
+                    appointmentTimeMinutesPicker.SelectedIndex = 0;
+                }
+                else
+                {
+                    appointmentTimeMinutesPicker.SelectedIndex = 1;
+                }
                 
                 appointmentCauseTxt.Text = dr["AppointmentCause"].ToString();
                 appointmentStatusComboBox.SelectedItem = dr["AppointmentStatus"].ToString();

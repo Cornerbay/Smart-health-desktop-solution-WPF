@@ -154,6 +154,73 @@ namespace Smart_health_desktop_solution_WPF
             }
         }
 
+        public string getHash(string username)
+        {
+            var hash = "";
+
+            DataTable adminDataTable = ReadTable("Admin");
+            DataTable doctorDataTable = ReadTable("Doctor");
+
+            foreach (DataRow row in adminDataTable.Rows)
+            {
+                if (username.Equals(row[0].ToString()))
+                {
+                    hash = row[3].ToString();
+                    return hash;
+                }
+            }
+
+            foreach (DataRow row in doctorDataTable.Rows)
+            {
+                if (username.Equals(row[0].ToString()))
+                {
+                    hash = row[5].ToString();
+                    return hash;
+                }
+            }
+
+            return hash;
+        }
+
+        public String[] GetUser(string username, string table)
+        {
+            String[] user = new String[4];
+
+            switch (table)
+            {
+                case "Admin":
+                    DataTable adminDataTable = ReadTable("Admin");
+                    foreach (DataRow row in adminDataTable.Rows)
+                    {
+                        if (username.Equals(row[0].ToString()))
+                        {
+                            user[0] = "1";
+                            user[1] = (row[3].ToString()); //adds password hash
+                            user[2] = (row[1].ToString()); //adds first name
+                            user[3] = (row[2].ToString()); // adds last name
+                            return user;
+                        }
+                    }
+                    break;
+                case "Doctor":
+                    DataTable doctorDataTable = ReadTable("Doctor");
+                    foreach (DataRow row in doctorDataTable.Rows)
+                    {
+                        if (username.Equals(row[0].ToString()))
+                        {
+                            user[0] = "1";
+                            user[1] = (row[5].ToString()); //adds password hash
+                            user[2] = (row[2].ToString()); //adds first name
+                            user[3] = (row[3].ToString()); //adds last name
+                            return user;
+                        }
+                    }
+                    break;
+            }
+
+            return user;
+        }
+
     }
 }
 

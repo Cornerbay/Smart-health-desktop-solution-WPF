@@ -2,12 +2,14 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Smart_health_desktop_solution_WPF"
-             StartupUri="MainWindow.xaml">
+             StartupUri="Login.xaml"
+             ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
         
         <!-- Default Button style-->
         <Style TargetType="Button">
-            <Setter Property="Background" Value="WhiteSmoke"/>
+            <Setter Property="Background" Value="#FF4A7EB7"/>
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="MinWidth" Value="70"/>
             <Setter Property="MinHeight" Value="30"/>
@@ -15,8 +17,8 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}"
-                                            CornerRadius="5"
-                                            BorderThickness="1"
+                                            CornerRadius="2"
+                                            BorderThickness="0"
                                             BorderBrush="#000">     
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
 
@@ -29,8 +31,8 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="border" Background="{TemplateBinding Background}"
-                                            CornerRadius="5"
-                                            BorderThickness="1"
+                                            CornerRadius="2"
+                                            BorderThickness="0"
                                             BorderBrush="#000">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
 
@@ -40,6 +42,7 @@
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" TargetName="border" Value="#FFBEE6FD"/>
                                 <Setter Property="BorderBrush" TargetName="border" Value="Red"/>
+                                <Setter Property="Foreground" Value="#FF2F2F2F"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter Property="Background" TargetName="border" Value="#FFC4E5F6"/>
@@ -67,6 +70,27 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="FontFamily" Value="Segue UI"/>
             <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <!-- Logo title textblock style-->
+        <Style BasedOn="{StaticResource {x:Type TextBlock}}"
+               TargetType="TextBlock"
+               x:Key="logoTextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="Segue UI"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="23"/>
+            <Setter Property="Foreground" Value="#FF4A7EB7"/>
+        </Style>
+
+        <!-- Alternative title1 textblock style-->
+        <Style BasedOn="{StaticResource {x:Type TextBlock}}"
+               TargetType="TextBlock"
+               x:Key="titleTextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="Segue UI"/>
+            <Setter Property="FontSize" Value="23"/>
+            <Setter Property="Foreground" Value="#FF282828"/>
         </Style>
 
         <!-- Default Label style-->
@@ -120,6 +144,24 @@
                 </Trigger>
                 <Trigger Property="IsKeyboardFocused" Value="True">
                     <Setter Property="Background" Value="White" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Visibility style setter -->
+        <Style TargetType="FrameworkElement" x:Key="VisibleAnimation">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Setter Property="Opacity" Value="0"/>
+            <Style.Triggers>
+                <Trigger Property="Visibility" Value="Visible">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0.0" To="1.0" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
                 </Trigger>
             </Style.Triggers>
         </Style>

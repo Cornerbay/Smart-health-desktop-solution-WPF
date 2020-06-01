@@ -14,29 +14,25 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static Smart_health_desktop_solution_WPF.Persistence;
 
 namespace Smart_health_desktop_solution_WPF.Views
 {
     /// <summary>
-    /// Interaction logic for Doctor.xaml
+    /// Interaction logic for Admin.xaml
     /// </summary>
-    public partial class Doctor : UserControl
+    public partial class Admin : UserControl
     {
         private static readonly string connectionString = "Server=tcp:healthcare-app2000.database.windows.net,1433;Initial Catalog=healthcare-app;Persist Security Info=False;User ID=designerkaktus;Password=HestErBest!!!1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        private SqlConnection con=null;
-        private String table = "Doctor";
+        private SqlConnection con = null;
+        private String table = "Admin";
         private Persistence persistence = new Persistence();
-        public Doctor()
+        public Admin()
         {
             setConnection();
             InitializeComponent();
-
-            persistence.setComboBox(specializationList, "Specialization", 0,1);
-            persistence.setComboBox(locationList, "Location", 0,1);
             setSearchComboBox();
-        }
 
+        }
 
 
         private void setConnection()
@@ -45,7 +41,8 @@ namespace Smart_health_desktop_solution_WPF.Views
             try
             {
                 con.Open();
-            }catch(Exception exp) 
+            }
+            catch (Exception exp)
             {
                 MessageBox.Show("The connection seems to have failed due to:\n" + exp.ToString());
             }
@@ -91,31 +88,27 @@ namespace Smart_health_desktop_solution_WPF.Views
             SqlCommand cmd = con.CreateCommand();
             cmd.CommandText = sqlStatement;
             cmd.CommandType = CommandType.Text;
-            
+
             switch (operation)
             {
                 case "add":
                     msg = "Row Inserted Successfully!";
-                    cmd.Parameters.Add("@SpecializationID", SqlDbType.Int).Value = Int32.Parse((specializationList.SelectedItem as ComboboxItem).Value.ToString());
                     cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 35).Value = firstNameTxt.Text;
                     cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 35).Value = lastNameTxt.Text;
-                    cmd.Parameters.Add("@LocationID", SqlDbType.Int).Value = Int32.Parse((locationList.SelectedItem as ComboboxItem).Value.ToString());
                     cmd.Parameters.Add("@Password", SqlDbType.VarChar, 128).Value = SecurePasswordHasher.Hash(passwordTxt.Text);
 
                     break;
                 case "update":
                     msg = "Row Updated Successfully!";
-                    cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse(doctorIDTxt.Text);
-                    cmd.Parameters.Add("@SpecializationID", SqlDbType.Int).Value = Int32.Parse((specializationList.SelectedItem as ComboboxItem).Value.ToString());
+                    cmd.Parameters.Add("@AdminID", SqlDbType.Int).Value = Int32.Parse(adminIDTxt.Text);
                     cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 35).Value = firstNameTxt.Text;
                     cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 35).Value = lastNameTxt.Text;
-                    cmd.Parameters.Add("@LocationID", SqlDbType.Int).Value = Int32.Parse((locationList.SelectedItem as ComboboxItem).Value.ToString());
 
                     break;
                 case "delete":
                     msg = "Row Deleted Successfully!";
 
-                    cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse(doctorIDTxt.Text);
+                    cmd.Parameters.Add("@AdminID", SqlDbType.Int).Value = Int32.Parse(adminIDTxt.Text);
 
                     break;
             }
@@ -128,7 +121,7 @@ namespace Smart_health_desktop_solution_WPF.Views
                     this.updateDataGrid();
                 }
             }
-            catch (Exception expe) 
+            catch (Exception expe)
             {
                 MessageBox.Show(expe.ToString());
             }
@@ -136,17 +129,18 @@ namespace Smart_health_desktop_solution_WPF.Views
 
         private void addBtnClick(object sender, RoutedEventArgs e)
         {
-            String sql =    "INSERT INTO " + table + " (SpecializationID, FirstName, LastName, LocationID, Password) " +
-                            "VALUES(@SpecializationID, @FirstName, @LastName, @LocationID, @Password);";
+            //sjekk hvordan parameters add som står over fungerer.
+            String sql = "INSERT INTO " + table + " (FirstName, LastName, Password) " +
+                            "VALUES(@FirstName, @LastName, @Password);";
             this.AUD(sql, "add");
         }
 
         private void updateBtnClick(object sender, RoutedEventArgs e)
         {
             String sql = "UPDATE " + table + " SET " +
-                            "SpecializationID = @SpecializationID," +
-                            "FirstName=@Firstname, LastName=@LastName, LocationID = @LocationID " +
-                            "WHERE DoctorID = @DoctorID";
+                            "FirstName = @FirstName, " +
+                            "LastName = @LastName" +
+                            " WHERE AdminID = @AdminID;";
             this.AUD(sql, "update");
         }
 
@@ -156,41 +150,22 @@ namespace Smart_health_desktop_solution_WPF.Views
             DataRowView dr = dg.SelectedItem as DataRowView;
             if (dr != null)
             {
-                doctorIDTxt.Text = dr["DoctorID"].ToString();
-                specializationList.SelectedItem = dr["SpecializationID"];
+                adminIDTxt.Text = dr["AdminID"].ToString();
                 firstNameTxt.Text = dr["FirstName"].ToString();
                 lastNameTxt.Text = dr["LastName"].ToString();
-                //locationList.SelectedItem = dr["LocationID"].ToString();
-
-                foreach(object listItem in specializationList.Items)
-                {
-                    if((listItem as ComboboxItem).Value.ToString().Equals(dr["SpecializationID"].ToString()))
-                    {
-                        specializationList.SelectedItem = listItem;
-                        break;
-                    }
-                }
-
-                foreach(object listItem in locationList.Items)
-                {
-                    if ((listItem as ComboboxItem).Value.ToString().Equals(dr["LocationID"].ToString()))
-                    {
-                        locationList.SelectedItem = listItem;
-                        break;
-                    }
-                }
 
                 addBtn.IsEnabled = false;
                 updateBtn.IsEnabled = true;
                 deleteBtn.IsEnabled = true;
+                passwordTxt.Visibility = Visibility.Hidden;
 
             }
         }
 
         private void deleteBtnClick(object sender, RoutedEventArgs e)
         {
-            String sql =    "DELETE FROM " + table +
-                            " WHERE DoctorID = @DoctorID;";
+            String sql = "DELETE FROM "+ table +
+                            " WHERE AdminID = @AdminID";
             this.AUD(sql, "delete");
             this.resetAll();
         }
@@ -202,15 +177,15 @@ namespace Smart_health_desktop_solution_WPF.Views
 
         private void resetAll()
         {
-            doctorIDTxt.Text = "Auto assigned";
-            specializationList.Text = "Choose Specialization";
+            adminIDTxt.Text = "Auto Assigned";
             firstNameTxt.Text = "";
             lastNameTxt.Text = "";
-            locationList.Text = "Choose Location";
+            passwordTxt.Text = "";
 
             addBtn.IsEnabled = true;
             updateBtn.IsEnabled = false;
             deleteBtn.IsEnabled = false;
+            passwordTxt.Visibility = Visibility.Visible;
         }
 
         private void setSearchComboBox()
@@ -235,7 +210,5 @@ namespace Smart_health_desktop_solution_WPF.Views
                 searchTxt.Visibility = Visibility.Visible;
             }
         }
-
-
     }
 }

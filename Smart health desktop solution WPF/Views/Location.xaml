@@ -40,7 +40,7 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <DataGrid x:Name="myDataGrid" IsReadOnly="True"  CanUserAddRows="False" SelectionChanged="DataGridSelectionChanged" 
-                      Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="3" MaxHeight="300"
+                      Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="3" MaxHeight="350"
                       ScrollViewer.CanContentScroll="True" 
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"/>

@@ -99,7 +99,7 @@ namespace Smart_health_desktop_solution_WPF.Views
                     cmd.Parameters.Add("@Address", SqlDbType.VarChar, 128).Value = addressTxt.Text;
                     cmd.Parameters.Add("@Birthdate", SqlDbType.Date).Value = birthdateDatePicker.SelectedDate;
                     cmd.Parameters.Add("@Email", SqlDbType.VarChar, 128).Value = emailTxt.Text;
-                    cmd.Parameters.Add("@Password", SqlDbType.VarChar, 128).Value = passwordTxt.Text;
+                    cmd.Parameters.Add("@Password", SqlDbType.VarChar, 128).Value = SecurePasswordHasher.Hash(passwordTxt.Text);
                     cmd.Parameters.Add("@Phone", SqlDbType.Char, 8).Value = phoneTxt.Text;
                     cmd.Parameters.Add("@PostalCode", SqlDbType.Char, 4).Value = postalCodeTxt.Text;
                     cmd.Parameters.Add("@Town", SqlDbType.VarChar, 65).Value = townTxt.Text;
@@ -113,7 +113,6 @@ namespace Smart_health_desktop_solution_WPF.Views
                     cmd.Parameters.Add("@Address", SqlDbType.VarChar, 128).Value = addressTxt.Text;
                     cmd.Parameters.Add("@Birthdate", SqlDbType.Date).Value = birthdateDatePicker.SelectedDate;
                     cmd.Parameters.Add("@Email", SqlDbType.VarChar, 128).Value = emailTxt.Text;
-                    cmd.Parameters.Add("@Password", SqlDbType.VarChar, 128).Value = passwordTxt.Text;
                     cmd.Parameters.Add("@Phone", SqlDbType.Char, 8).Value = phoneTxt.Text;
                     cmd.Parameters.Add("@PostalCode", SqlDbType.Char, 4).Value = postalCodeTxt.Text;
                     cmd.Parameters.Add("@Town", SqlDbType.VarChar, 65).Value = townTxt.Text;
@@ -154,7 +153,7 @@ namespace Smart_health_desktop_solution_WPF.Views
         {
             String sql = "UPDATE "+ table + " SET " +
                             "FirstName=@Firstname, LastName=@LastName, Address=@Address, " +
-                            "Birthdate=@BirthDate, Email=@Email, Password=@Password," +
+                            "Birthdate=@BirthDate, Email=@Email," +
                             "Phone=@Phone, PostalCode=@PostalCode, Town=@Town " +
                             "WHERE BirthNumber = @BirthNumber";
             this.AUD(sql, "update");
