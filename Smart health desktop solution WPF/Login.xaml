@@ -1,0 +1,71 @@
+﻿<Window x:Class="Smart_health_desktop_solution_WPF.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Smart_health_desktop_solution_WPF"
+        mc:Ignorable="d"
+        Title="Login" Height="400" Width="300"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+            <Image Source="res/logo1.png"
+                Height="70" HorizontalAlignment="Left"/>
+            <StackPanel>
+                <TextBlock Text="Smart" Style="{StaticResource logoTextBlock}" Margin="0,10,0,-5"/>
+                <TextBlock Text="Health" Style="{StaticResource logoTextBlock}" />
+                <TextBlock Text="Solutions" Style="{StaticResource logoTextBlock}"  Margin="0,-5,0,10"/>
+            </StackPanel>
+        </StackPanel>
+
+        <TextBlock Text="Please choose role:" Grid.Row="3" Grid.Column="1" Margin="0,5"/>
+        <ComboBox Name="roleComboBox" Grid.Row="4" Grid.Column="1" Margin="0,5" SelectionChanged="roleComboBox_SelectionChanged" >
+            <ComboBoxItem Content="Doctor"/>
+            <ComboBoxItem Content="Administrator" />
+        </ComboBox>
+        <TextBlock x:Name="usernameTxtBlock" Text="Username" Grid.Row="5" Grid.Column="1" Margin="0,5" Visibility="Collapsed"/>
+        <TextBox x:Name="usernameTxtBox" Grid.Row="6" Grid.Column="1" Margin="0,5" Visibility="Collapsed"/>
+        <TextBlock x:Name="passwordTxtBlock" Text="Password" Grid.Row="7" Grid.Column="1" Margin="0,5" Visibility="Collapsed"/>
+        <PasswordBox x:Name="passwordBox" Grid.Row="8" Grid.Column="1" Margin="0,5" Visibility="Collapsed" />
+        <DockPanel x:Name="loginDockPanel" Grid.Column="1" Grid.Row="9" Visibility="Collapsed" >
+            <TextBlock Text="Incorrect username or password"
+                       x:Name="errorMsgTxtBlock"
+                       TextWrapping="Wrap"
+                       HorizontalAlignment="Left"
+                       FontSize="12"
+                       Foreground="Red"
+                       Visibility="Hidden"
+                       Width="130"
+                       Padding="0"
+                       Margin="0,5"/>
+            <Button x:Name="loginBtn" Content="Login"  Click="loginBtn_Click"
+                    Width="50" Height="25" Margin="0,5"
+                    HorizontalAlignment="Right"
+                    RenderTransformOrigin="0.5,0.5">
+                <Button.RenderTransform>
+                    <RotateTransform x:Name="buttonRotation"/>
+                </Button.RenderTransform>
+            </Button>
+            
+        </DockPanel>
+
+    </Grid>
+</Window>

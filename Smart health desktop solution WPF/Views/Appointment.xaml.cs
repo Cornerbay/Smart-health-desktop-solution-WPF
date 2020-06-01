@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static Smart_health_desktop_solution_WPF.Persistence;
 
 namespace Smart_health_desktop_solution_WPF.Views
 {
@@ -23,16 +24,18 @@ namespace Smart_health_desktop_solution_WPF.Views
         private static readonly string connectionString = "Server=tcp:healthcare-app2000.database.windows.net,1433;Initial Catalog=healthcare-app;Persist Security Info=False;User ID=designerkaktus;Password=HestErBest!!!1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         private SqlConnection con = null;
         private String table = "Appointment";
+        private Persistence persistence = new Persistence();
         public Appointment()
         {
             setConnection();
             InitializeComponent();
-            Persistence persistence = new Persistence();
             loadTimeComboBoxes();
             loadStatusComboBox();
 
-            persistence.setComboBox(patientBirthNumberTxt, persistence.ReadTable("Patient"), 0);
-            persistence.setComboBox(doctorIDTxt, persistence.ReadTable("Doctor"), 0);
+            persistence.setComboBox(patientBirthNumberTxt, "Patient" , 0, 1, 2);
+            persistence.setComboBox(doctorIDTxt, "Doctor", 0, 2, 3);
+            setSearchComboBox();
+
         }
 
 
@@ -52,9 +55,23 @@ namespace Smart_health_desktop_solution_WPF.Views
 
         private void updateDataGrid()
         {
-            Persistence persistence = new Persistence();
-            DataTable dt = persistence.ReadTable(table);
-            myDataGrid.ItemsSource = dt.DefaultView;
+            DataTable dt;
+            if (string.IsNullOrWhiteSpace(searchTxt.Text))
+            {
+                dt = persistence.ReadTable(table);
+                myDataGrid.ItemsSource = dt.DefaultView;
+            }
+            else if(!(columnComboBox.SelectedIndex > -1))
+            {
+                searchTxt.Visibility = Visibility.Visible;
+                dt = persistence.ReadTable(table);
+                myDataGrid.ItemsSource = dt.DefaultView;
+            }
+            else
+            {
+                dt = persistence.SearchTable(table, columnComboBox.SelectedItem.ToString(), searchTxt.Text);
+                myDataGrid.ItemsSource = dt.DefaultView;
+            }
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
@@ -82,8 +99,8 @@ namespace Smart_health_desktop_solution_WPF.Views
             {
                 case "add":
                     msg = "Row Inserted Successfully!";
-                    cmd.Parameters.Add("@PatientBirthNumber", SqlDbType.Char, 11).Value = patientBirthNumberTxt.SelectedItem;
-                    cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse(doctorIDTxt.SelectedItem.ToString());
+                    cmd.Parameters.Add("@PatientBirthNumber", SqlDbType.Char, 11).Value = (patientBirthNumberTxt.SelectedItem as ComboboxItem).Value.ToString();
+                    cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse((doctorIDTxt.SelectedItem as ComboboxItem).Value.ToString());
                     cmd.Parameters.Add("@AppointmentDate", SqlDbType.Date).Value = appointmentDatePicker.SelectedDate;
                     cmd.Parameters.Add("@AppointmentTime", SqlDbType.Time, 7).Value = time;
                     cmd.Parameters.Add("@AppointmentCause", SqlDbType.VarChar, 256).Value = appointmentCauseTxt.Text;
@@ -93,8 +110,8 @@ namespace Smart_health_desktop_solution_WPF.Views
                 case "update":
                     msg = "Row Updated Successfully!";
                     cmd.Parameters.Add("@AppointmentID", SqlDbType.Int).Value = Int32.Parse(appointmentIDTxt.Text);
-                    cmd.Parameters.Add("@PatientBirthNumber", SqlDbType.Char, 11).Value = patientBirthNumberTxt.SelectedItem;
-                    cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse(doctorIDTxt.SelectedItem.ToString());
+                    cmd.Parameters.Add("@PatientBirthNumber", SqlDbType.Char, 11).Value = (patientBirthNumberTxt.SelectedItem as ComboboxItem).Value.ToString();
+                    cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse((doctorIDTxt.SelectedItem as ComboboxItem).Value.ToString());
                     cmd.Parameters.Add("@AppointmentDate", SqlDbType.Date).Value = appointmentDatePicker.SelectedDate;
                     cmd.Parameters.Add("@AppointmentTime", SqlDbType.Time, 7).Value = time;
                     cmd.Parameters.Add("@AppointmentCause", SqlDbType.VarChar, 256).Value = appointmentCauseTxt.Text;
@@ -125,7 +142,6 @@ namespace Smart_health_desktop_solution_WPF.Views
 
         private void addBtnClick(object sender, RoutedEventArgs e)
         {
-            //sjekk hvordan parameters add som står over fungerer.
             String sql = "INSERT INTO " + table +
                             " (PatientBirthNumber, DoctorID, AppointmentDate, AppointmentTime, AppointmentCause, AppointmentStatus) " +
                             "VALUES(@PatientBirthNumber, @DoctorID, @AppointmentDate, @AppointmentTime, @AppointmentCause, @AppointmentStatus);";
@@ -148,17 +164,46 @@ namespace Smart_health_desktop_solution_WPF.Views
             if (dr != null)
             {
                 appointmentIDTxt.Text = dr["AppointmentID"].ToString();
-                patientBirthNumberTxt.Text = dr["PatientBirthNumber"].ToString();
-                doctorIDTxt.Text = dr["DoctorID"].ToString();
+
+                foreach (object listItem in patientBirthNumberTxt.Items)
+                {
+                    if ((listItem as ComboboxItem).Value.ToString().Equals(dr["PatientBirthNumber"].ToString()))
+                    {
+                        patientBirthNumberTxt.SelectedItem = listItem;
+                        break;
+                    }
+                }
+
+                foreach (object listItem in doctorIDTxt.Items)
+                {
+                    if ((listItem as ComboboxItem).Value.ToString().Equals(dr["DoctorID"].ToString()))
+                    {
+                        doctorIDTxt.SelectedItem = listItem;
+                        break;
+                    }
+                }
+
                 appointmentDatePicker.SelectedDate = DateTime.Parse(dr["AppointmentDate"].ToString());
 
                 string[] time = dr["AppointmentTime"].ToString().Split(':');
+
                 appointmentTimeHourPicker.SelectedItem = time[0];
-                appointmentTimeMinutesPicker.SelectedItem = time[1];
+
+
+                int minutes = Int32.Parse(time[1]);
+                if(minutes < 31)
+                {
+                    appointmentTimeMinutesPicker.SelectedIndex = 0;
+                }
+                else
+                {
+                    appointmentTimeMinutesPicker.SelectedIndex = 1;
+                }
                 
                 appointmentCauseTxt.Text = dr["AppointmentCause"].ToString();
                 appointmentStatusComboBox.SelectedItem = dr["AppointmentStatus"].ToString();
 
+                setStatusComboBox(dr["AppointmentStatus"].ToString());
 
                 addBtn.IsEnabled = false;
                 updateBtn.IsEnabled = true;
@@ -182,7 +227,7 @@ namespace Smart_health_desktop_solution_WPF.Views
 
         private void resetAll()
         {
-            appointmentIDTxt.Text = "";
+            appointmentIDTxt.Text = "Auto assigned";
             patientBirthNumberTxt.Text = "";
             doctorIDTxt.Text = "";
             appointmentDatePicker.SelectedDate= null;
@@ -238,6 +283,45 @@ namespace Smart_health_desktop_solution_WPF.Views
                     break;
             }
                    return statusValue;
+        }
+
+        private void setStatusComboBox(string status)
+        {
+            switch (status)
+            {
+                case "1":
+                    appointmentStatusComboBox.SelectedIndex = 1;
+                    break;
+                case "0":
+                    appointmentStatusComboBox.SelectedIndex = 0;
+                    break;
+                case null:
+                    appointmentStatusComboBox.SelectedIndex = 0;
+                    break;
+            }
+        }
+
+        private void setSearchComboBox()
+        {
+            DataTable dt = persistence.GetColumnNames(table);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                columnComboBox.Items.Add(row[0].ToString());
+            }
+        }
+
+        private void searchUpdate(object sender, TextChangedEventArgs e)
+        {
+            this.updateDataGrid();
+        }
+
+        private void columnBoxChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((columnComboBox.SelectedIndex > -1))
+            {
+                searchTxt.Visibility = Visibility.Visible;
+            }
         }
     }
 }
