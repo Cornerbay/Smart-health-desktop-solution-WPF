@@ -7,7 +7,7 @@
         xmlns:viewmodels="clr-namespace:Smart_health_desktop_solution_WPF.ViewModels"
         xmlns:views="clr-namespace:Smart_health_desktop_solution_WPF.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1080"
+        Title="Smart Health Solutions" Height="720" Width="1080"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <DataTemplate x:Name="doctorTableView" DataType="{x:Type viewmodels:Doctor}">
@@ -113,6 +113,13 @@
                         <Button Content="Admin Password" Click="adminPasswordBtnClicked"/>
                     </StackPanel>
                 </Grid>
+
+                <Button Click="logoutBtnClicked" >
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Logout"/>
+                        <Image Source="res/exit.png" Height="15" Margin="20,0,0,0"/>
+                    </StackPanel>
+                </Button>
 
                 <Button Click="exitBtnClicked" >
                     <StackPanel Orientation="Horizontal">

@@ -96,20 +96,26 @@ namespace Smart_health_desktop_solution_WPF.Views
             {
                 case "add":
                     msg = "Row Inserted Successfully!";
-                    cmd.Parameters.Add("@SpecializationID", SqlDbType.Int).Value = Int32.Parse((specializationList.SelectedItem as ComboboxItem).Value.ToString());
-                    cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 35).Value = firstNameTxt.Text;
-                    cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 35).Value = lastNameTxt.Text;
-                    cmd.Parameters.Add("@LocationID", SqlDbType.Int).Value = Int32.Parse((locationList.SelectedItem as ComboboxItem).Value.ToString());
-                    cmd.Parameters.Add("@Password", SqlDbType.VarChar, 128).Value = SecurePasswordHasher.Hash(passwordTxt.Text);
+                    if(specializationList.SelectedIndex > -1 && locationList.SelectedIndex > -1)
+                    {
+                        cmd.Parameters.Add("@SpecializationID", SqlDbType.Int).Value = Int32.Parse((specializationList.SelectedItem as ComboboxItem).Value.ToString());
+                        cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 35).Value = firstNameTxt.Text;
+                        cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 35).Value = lastNameTxt.Text;
+                        cmd.Parameters.Add("@LocationID", SqlDbType.Int).Value = Int32.Parse((locationList.SelectedItem as ComboboxItem).Value.ToString());
+                        cmd.Parameters.Add("@Password", SqlDbType.VarChar, 128).Value = SecurePasswordHasher.Hash(passwordTxt.Text);
+                    }
 
                     break;
                 case "update":
                     msg = "Row Updated Successfully!";
-                    cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse(doctorIDTxt.Text);
-                    cmd.Parameters.Add("@SpecializationID", SqlDbType.Int).Value = Int32.Parse((specializationList.SelectedItem as ComboboxItem).Value.ToString());
-                    cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 35).Value = firstNameTxt.Text;
-                    cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 35).Value = lastNameTxt.Text;
-                    cmd.Parameters.Add("@LocationID", SqlDbType.Int).Value = Int32.Parse((locationList.SelectedItem as ComboboxItem).Value.ToString());
+                    if (specializationList.SelectedIndex > -1 && locationList.SelectedIndex > -1)
+                    {
+                        cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse(doctorIDTxt.Text);
+                        cmd.Parameters.Add("@SpecializationID", SqlDbType.Int).Value = Int32.Parse((specializationList.SelectedItem as ComboboxItem).Value.ToString());
+                        cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 35).Value = firstNameTxt.Text;
+                        cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 35).Value = lastNameTxt.Text;
+                        cmd.Parameters.Add("@LocationID", SqlDbType.Int).Value = Int32.Parse((locationList.SelectedItem as ComboboxItem).Value.ToString());
+                    }
 
                     break;
                 case "delete":

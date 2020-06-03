@@ -96,15 +96,18 @@ namespace Smart_health_desktop_solution_WPF.Views
                 case "add":
                     msg = "Row Inserted Successfully!";
                     cmd.Parameters.Add("@LocationName", SqlDbType.VarChar, 64).Value = locationNameTxt.Text;
-                    if (showLocationComboBox.SelectedItem.ToString().Equals("Yes"))
+                    if (showLocationComboBox.SelectedIndex > -1)
                     {
-                        cmd.Parameters.Add("@ShowLocation", SqlDbType.TinyInt).Value = 1;
-                    } if(showLocationComboBox.SelectedItem.ToString().Equals("No"))
-                    {
-                        cmd.Parameters.Add("@ShowLocation", SqlDbType.TinyInt).Value = 0;
-                    }else
-                    {
-                        cmd.Parameters.Add("@ShowLocation", SqlDbType.TinyInt).Value = 0;
+                        if (showLocationComboBox.SelectedItem.ToString().Equals("Yes"))
+                        {
+                            cmd.Parameters.Add("@ShowLocation", SqlDbType.TinyInt).Value = 1;
+                        } if(showLocationComboBox.SelectedItem.ToString().Equals("No"))
+                        {
+                            cmd.Parameters.Add("@ShowLocation", SqlDbType.TinyInt).Value = 0;
+                        }else
+                        {
+                            cmd.Parameters.Add("@ShowLocation", SqlDbType.TinyInt).Value = 0;
+                        }
                     }
 
                     break;
@@ -112,17 +115,20 @@ namespace Smart_health_desktop_solution_WPF.Views
                     msg = "Row Updated Successfully!";
                     cmd.Parameters.Add("@LocationID", SqlDbType.Int).Value = Int32.Parse(locationIDTxt.Text);
                     cmd.Parameters.Add("@LocationName", SqlDbType.VarChar, 64).Value = locationNameTxt.Text;
-                    if (showLocationComboBox.SelectedValue.ToString().Equals("Yes"))
+                    if (showLocationComboBox.SelectedIndex > -1)
                     {
-                        cmd.Parameters.Add("@ShowLocation", SqlDbType.TinyInt).Value = 1;
-                    }
-                    else if (showLocationComboBox.SelectedValue.ToString().Equals("No"))
-                    {
-                        cmd.Parameters.Add("@ShowLocation", SqlDbType.TinyInt).Value = 0;
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add("@ShowLocation", SqlDbType.TinyInt).Value = 0;
+                        if (showLocationComboBox.SelectedValue.ToString().Equals("Yes"))
+                        {
+                            cmd.Parameters.Add("@ShowLocation", SqlDbType.TinyInt).Value = 1;
+                        }
+                        else if (showLocationComboBox.SelectedValue.ToString().Equals("No"))
+                        {
+                            cmd.Parameters.Add("@ShowLocation", SqlDbType.TinyInt).Value = 0;
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add("@ShowLocation", SqlDbType.TinyInt).Value = 0;
+                        }
                     }
                     break;
                 case "delete":
@@ -194,7 +200,7 @@ namespace Smart_health_desktop_solution_WPF.Views
         private void deleteBtnClick(object sender, RoutedEventArgs e)
         {
             String sql = "DELETE FROM Location " +
-                            "WHERE Location = @LocationID";
+                            "WHERE LocationID = @LocationID";
             this.AUD(sql, "delete");
             this.resetAll();
         }

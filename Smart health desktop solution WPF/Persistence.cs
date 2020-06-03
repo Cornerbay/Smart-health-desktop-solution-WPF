@@ -99,15 +99,6 @@ namespace Smart_health_desktop_solution_WPF
             return dt;
         }
 
-        private Object[] FindTypeAndLength(string table, string column)
-        {
-            string querySentence = "SELECT DATA_TYPE, CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '"+
-                                    table +"' AND COLUMN_NAME = '" + column + "';";
-            DataRow dr = ExecuteReadQuery(querySentence).Rows[0];
-            object[] typeAndLength = { dr["DATA_TYPE"], dr["CHARACTER_MAXIMUM_LENGTH"] };
-            return typeAndLength;
-        }
-
         internal DataTable GetSchema()
         {
             SqlCommand cmd = new SqlCommand();
@@ -182,33 +173,6 @@ namespace Smart_health_desktop_solution_WPF
             }
         }
 
-        public string getHash(string username)
-        {
-            var hash = "";
-
-            DataTable adminDataTable = ReadTable("Admin");
-            DataTable doctorDataTable = ReadTable("Doctor");
-
-            foreach (DataRow row in adminDataTable.Rows)
-            {
-                if (username.Equals(row[0].ToString()))
-                {
-                    hash = row[3].ToString();
-                    return hash;
-                }
-            }
-
-            foreach (DataRow row in doctorDataTable.Rows)
-            {
-                if (username.Equals(row[0].ToString()))
-                {
-                    hash = row[5].ToString();
-                    return hash;
-                }
-            }
-
-            return hash;
-        }
 
         public String[] GetUser(string username, string table)
         {

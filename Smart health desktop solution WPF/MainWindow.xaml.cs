@@ -146,6 +146,10 @@ namespace Smart_health_desktop_solution_WPF
             DataContext = new Views.ManagePassword("Admin");
         }
 
-
+        private void logoutBtnClicked(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            new Login().ShowDialog();
+        }
     }
 }

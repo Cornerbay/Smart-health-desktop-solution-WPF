@@ -89,42 +89,58 @@ namespace Smart_health_desktop_solution_WPF.Views
         private void AUD(String sqlStatement, String operation)
         {
             String msg = "";
+            string time = "";
             SqlCommand cmd = con.CreateCommand();
             cmd.CommandText = sqlStatement;
             cmd.CommandType = CommandType.Text;
-            string time = appointmentTimeHourPicker.SelectedItem.ToString() + ":" + appointmentTimeMinutesPicker.SelectedItem.ToString();
-            object status = appointmentStatusComboBox.SelectedItem;
-
-            switch (operation)
+            if(appointmentTimeHourPicker.SelectedIndex > -1 && appointmentTimeMinutesPicker.SelectedIndex > -1)
             {
-                case "add":
-                    msg = "Row Inserted Successfully!";
-                    cmd.Parameters.Add("@PatientBirthNumber", SqlDbType.Char, 11).Value = (patientBirthNumberTxt.SelectedItem as ComboboxItem).Value.ToString();
-                    cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse((doctorIDTxt.SelectedItem as ComboboxItem).Value.ToString());
-                    cmd.Parameters.Add("@AppointmentDate", SqlDbType.Date).Value = appointmentDatePicker.SelectedDate;
-                    cmd.Parameters.Add("@AppointmentTime", SqlDbType.Time, 7).Value = time;
-                    cmd.Parameters.Add("@AppointmentCause", SqlDbType.VarChar, 256).Value = appointmentCauseTxt.Text;
-                    cmd.Parameters.Add("@AppointmentStatus", SqlDbType.TinyInt).Value = addStatusParameter(status);
-
-                    break;
-                case "update":
-                    msg = "Row Updated Successfully!";
-                    cmd.Parameters.Add("@AppointmentID", SqlDbType.Int).Value = Int32.Parse(appointmentIDTxt.Text);
-                    cmd.Parameters.Add("@PatientBirthNumber", SqlDbType.Char, 11).Value = (patientBirthNumberTxt.SelectedItem as ComboboxItem).Value.ToString();
-                    cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse((doctorIDTxt.SelectedItem as ComboboxItem).Value.ToString());
-                    cmd.Parameters.Add("@AppointmentDate", SqlDbType.Date).Value = appointmentDatePicker.SelectedDate;
-                    cmd.Parameters.Add("@AppointmentTime", SqlDbType.Time, 7).Value = time;
-                    cmd.Parameters.Add("@AppointmentCause", SqlDbType.VarChar, 256).Value = appointmentCauseTxt.Text;
-                    cmd.Parameters.Add("@AppointmentStatus", SqlDbType.TinyInt).Value = addStatusParameter(status);
-
-                    break;
-                case "delete":
-                    msg = "Row Deleted Successfully!";
-
-                    cmd.Parameters.Add("@AppointmentID", SqlDbType.Int).Value = Int32.Parse(appointmentIDTxt.Text);
-
-                    break;
+                time = appointmentTimeHourPicker.SelectedItem.ToString() + ":" + appointmentTimeMinutesPicker.SelectedItem.ToString();
             }
+            else
+            {
+                MessageBox.Show("Please choose time for appointment");
+            }
+            object status = appointmentStatusComboBox.SelectedItem;
+            if (!String.IsNullOrEmpty(time))
+            {
+                switch (operation)
+                {
+                    case "add":
+                        msg = "Row Inserted Successfully!";
+                        if(patientBirthNumberTxt.SelectedIndex>-1 && doctorIDTxt.SelectedIndex > -1)
+                        {
+                            cmd.Parameters.Add("@PatientBirthNumber", SqlDbType.Char, 11).Value = (patientBirthNumberTxt.SelectedItem as ComboboxItem).Value.ToString();
+                            cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse((doctorIDTxt.SelectedItem as ComboboxItem).Value.ToString());
+                            cmd.Parameters.Add("@AppointmentDate", SqlDbType.Date).Value = appointmentDatePicker.SelectedDate;
+                            cmd.Parameters.Add("@AppointmentTime", SqlDbType.Time, 7).Value = time;
+                            cmd.Parameters.Add("@AppointmentCause", SqlDbType.VarChar, 256).Value = appointmentCauseTxt.Text;
+                            cmd.Parameters.Add("@AppointmentStatus", SqlDbType.TinyInt).Value = addStatusParameter(status);
+                        }
+
+                        break;
+                    case "update":
+                        msg = "Row Updated Successfully!";
+                        if (patientBirthNumberTxt.SelectedIndex > -1 && doctorIDTxt.SelectedIndex > -1)
+                        {
+                            cmd.Parameters.Add("@AppointmentID", SqlDbType.Int).Value = Int32.Parse(appointmentIDTxt.Text);
+                            cmd.Parameters.Add("@PatientBirthNumber", SqlDbType.Char, 11).Value = (patientBirthNumberTxt.SelectedItem as ComboboxItem).Value.ToString();
+                            cmd.Parameters.Add("@DoctorID", SqlDbType.Int).Value = Int32.Parse((doctorIDTxt.SelectedItem as ComboboxItem).Value.ToString());
+                            cmd.Parameters.Add("@AppointmentDate", SqlDbType.Date).Value = appointmentDatePicker.SelectedDate;
+                            cmd.Parameters.Add("@AppointmentTime", SqlDbType.Time, 7).Value = time;
+                            cmd.Parameters.Add("@AppointmentCause", SqlDbType.VarChar, 256).Value = appointmentCauseTxt.Text;
+                            cmd.Parameters.Add("@AppointmentStatus", SqlDbType.TinyInt).Value = addStatusParameter(status);
+                        }
+                        break;
+                    case "delete":
+                        msg = "Row Deleted Successfully!";
+
+                        cmd.Parameters.Add("@AppointmentID", SqlDbType.Int).Value = Int32.Parse(appointmentIDTxt.Text);
+
+                        break;
+                }
+            }
+
             try
             {
                 int n = cmd.ExecuteNonQuery();
@@ -136,7 +152,7 @@ namespace Smart_health_desktop_solution_WPF.Views
             }
             catch (Exception expe)
             {
-                MessageBox.Show(expe.ToString());
+                MessageBox.Show("Unable to update database");
             }
         }
 

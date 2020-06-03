@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Smart_health_desktop_solution_WPF.MainWindow">
+    <Position X="1.25" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAIAASAAAKgIAAAAAQAgAIAAASAAAAEAgAJA=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Smart_health_desktop_solution_WPF.Login">
+    <Position X="6" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAABAAQAAIQAEAAAAAAAAAIAAAQA=</HashCode>
+      <FileName>Login.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Smart_health_desktop_solution_WPF.Views.Appointment" Collapsed="true">
+    <Position X="5.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAIBAABQIAQAApAARAAAQBgEAgEIAAAAQAAAAAAgQA=</HashCode>
+      <FileName>Views\Appointment.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Smart_health_desktop_solution_WPF.Persistence" Collapsed="true">
+    <Position X="12" Y="0.75" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="Smart_health_desktop_solution_WPF.Persistence.ComboboxItem">
+        <TypeIdentifier>
+          <NewMemberFileName>Persistence.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAABgAAAAAAQAAAQBAAAAgEEACAAAAAYA=</HashCode>
+      <FileName>Persistence.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Smart_health_desktop_solution_WPF.Views.Admin">
+    <Position X="12" Y="1.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAIBAABQAAAAApAARAAAQBAEAgEIAAAAQAAAAAAgQA=</HashCode>
+      <FileName>Views\Admin.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Smart_health_desktop_solution_WPF.Views.ManagePassword" Collapsed="true">
+    <Position X="10.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIBAABQAAAAApAABAAAQBAEAgEAAAAAQAAAAAAAQg=</HashCode>
+      <FileName>Views\ManagePassword.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Smart_health_desktop_solution_WPF.Views.MyAppointments" Collapsed="true">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIBAAAAAAAAApACBAAAQBAAAgEAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Views\MyAppointments.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Smart_health_desktop_solution_WPF.SecurePasswordHasher">
+    <Position X="8.75" Y="1.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABIAAQAAgAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>SecurePasswordHasher.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
